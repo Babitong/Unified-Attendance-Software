@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% load static%}
+
+{% block content%}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Scan QR Code</title>
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+  <style>
+    #reader {
+      width: 300px;
+      margin: auto;
+      padding: 10px;
+      border: 2px solid #2a9d8f;
+      border-radius: 8px;
+    }
+    #qr-file {
+      margin-top: 20px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <h2 style="text-align:center;">📸 QR Code Scanner</h2>
+
+  <!-- Camera-based scanning -->
+  <div id="reader"></div>
+
+  <!-- File-based scanning -->
+  <input type="file" id="qr-file" accept="image/*" />
+
+  <script>
+    const qrCode = new Html5Qrcode("reader");
+
+    // Live camera scan
+    qrCode.start(
+      { facingMode: "environment" },
+      {
+        fps: 10,
+        qrbox: 250
+      },
+      (decodedText) => {
+        console.log("Live QR Code scanned:", decodedText);
+        window.location.href = "/scan_qr_auto/?code=" + encodeURIComponent(decodedText);
+      },
+      (errorMessage) => {
+        // Optionally handle scan errors
+      }
+    ).catch((err) => {
+      alert("❌ Camera scan failed: " + err);
+    });
+
+    // File upload scan
+    document.getElementById("qr-file").addEventListener("change", e => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      qrCode.scanFile(file, true)
+        .then(decodedText => {
+          console.log("Image QR Code scanned:", decodedText);
+          window.location.href = "/scan_qr_auto/?code=" + encodeURIComponent(decodedText);
+        })
+        .catch(err => {
+          alert("❌ Couldn't read QR code from file.");
+        });
+    });
+  </script>
+  {%  endblock %}
+</body>
+</html>
+
+
+
+
+
+{% comment %}  
+{% block content %}
+
+
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Scan QR - Unified Attendance</title>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <style>
+    #reader {
+      width: 300px;
+      margin: auto;
+    }
+    .status {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <h2 style="text-align:center;"> 📷 Scan The QR Code</h2>
+  <div id="reader"></div>
+  <div class="status" id="scanStatus">Awaiting QR scan...</div>
+
+
+ 
+
+
+  <script>
+    function onScanSuccess(decodedText) {
+      fetch(`/scan_qr_auto/?data=${encodeURIComponent(decodedText)}`)
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById("scanStatus").textContent = data.status;
+        });
+    }
+
+    const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
+    scanner.render(onScanSuccess);
+  </script>
+</body>
+</html>  {% endcomment %}
+
+ {% comment %} <style>
+  {% comment %} styling here {% endcomment %}
+{% comment %} </style>
+  <h2>Check In</h2>
+  <form method="POST" class="check">
+    {% csrf_token %}
+    <input type="hidden" name="lat" id="lat">
+    <input type="hidden" name="lng" id="lng">
+    <button type="submit">Check In</button>
+  </form>
+
+  <script>
+    navigator.geolocation.getCurrentPosition(function(pos) {
+      document.getElementById("lat").value = pos.coords.latitude;
+      document.getElementById("lng").value = pos.coords.longitude;
+    }, function(err) {
+      alert("Could not get your location.");
+    });
+  </script>  {% endcomment %}
+

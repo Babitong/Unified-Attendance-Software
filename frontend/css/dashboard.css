@@ -1,0 +1,76 @@
+/* ===== DASHBOARD STYLES ===== */
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    margin: 0;
+    background-color: #f8f9fa;
+}
+
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.greeting h2 {
+    color: #4361ee;
+    margin: 0 0 0.5rem 0;
+}
+
+.user-role-badge {
+    background: #4361ee;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+}
+
+.logout-btn {
+    background: transparent;
+    color: #4361ee;
+    border: none;
+    padding: 0.5rem 1.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8,0.25,1);
+}
+
+.logout-btn:hover{
+    color: white;
+    background: #3a56d4;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+}
+
+.stats-card {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.stats-card h3 {
+    color: #6c757d;
+    margin: 0 0 0.5rem 0;
+}
+
+.stats-card p {
+    font-size: 2rem;
+    margin: 0;
+    color: #4361ee;
+    font-weight: 700;
+}
+a{
+    text-decoration: none;
+    border-radius: 8px;
+    color: #4361ee;
+    transition: all 0.3s cubic-bezier(0.25, 0.8,0.25,1);
+}

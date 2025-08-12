@@ -1,0 +1,46 @@
+{% extends "base.html"%}
+{% load static %}
+
+{% block content%}
+
+<h2>👋 Welcome, {{ user.get_full_name|default:user.username }}</h2>
+
+<p>✅ Checked in at: {{ scanned_at }}</p>
+
+{% if checked_out_at %}
+  <p>✅ Checked out at: {{ checked_out_at }}</p>
+{% elif can_checkout %}
+  <form method="post" action="{% url 'checkout' %}">
+    {% csrf_token %}
+    <button type="submit">Check Out Now</button>
+  </form>
+{% else %}
+  <p>⏳ You can check out after 4 hours have passed.</p>
+{% endif %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teacher Dashboard</title>
+  <link rel="stylesheet" href="{% static 'css/teacher-dashboard.css' %}" />
+</head>
+<body>
+  
+
+  <section class="quick-actions">
+    <button><a href="{% url 'check_in'%}">📷 Scan Attendance</a></button>
+    <button>📄 View My Logs</button>
+    <button>🚩 View Today's Logs</button>
+    {% comment %} <button>⚙️ Utility</button> {% endcomment %}
+  </section>
+
+
+  <script src="{% static 'teacher-dashboard.js'%}"></script>
+</body>
+</html>
+
+
+{% endblock %}
+

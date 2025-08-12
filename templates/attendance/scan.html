@@ -1,0 +1,23 @@
+{%load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scan Attendance</title>
+    <link rel="stylesheet" href="{% static 'css/scan.css' %}">
+</head>
+<body>
+    <div class="scanner-container">
+        <video id="scanner-view" playsinline></video>
+        <canvas id="scanner-canvas" hidden></canvas>
+        <div class="scan-overlay"></div>
+    </div>
+
+    <div class="manual-actions">
+        <button id="check-in-btn">Check In</button>
+        <button id="check-out-btn">Check Out</button>
+    </div>
+
+    <script src="{% static 'js/jsQR.js' %}"></script>
+    <script src="{% static 'js/attendance.js' %}"></script>
+</body>
+</html>

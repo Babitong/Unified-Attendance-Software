@@ -1,0 +1,46 @@
+
+{% comment %} {% extends "daily_logs.html"%} {% endcomment %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Attendance System</title>
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <div class="greeting">
+                <h2>Hello, {{ user.username }} ({{user.user_type}})</h2>
+                <span class="user-role-badge">{{ user.get_role_display }}</span>
+                
+            </div>
+            <nav>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn">Logout</button>
+                </form>
+            </nav>
+        </header>
+
+        <div class="dashboard-content">
+            <!-- Dashboard specific content here -->
+            <div class="stats-card">
+                <h3>Today's Attendance</h3>
+                <p>{% if user.is_admin or user.is_superuser %}
+                         <a href="{% url 'admin:index'%}" class="logout-btn"> Visit The Admin Panel</a>
+                    {% endif%}
+                </p>
+     <p>
+        {% if user.user_type == 'Secretary' %}
+            
+        {% endif %}
+     </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

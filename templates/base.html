@@ -1,0 +1,78 @@
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance System</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+    <link rel="stylesheet" href="{% static 'css/daily-logs.css' %}">
+    <link rel="stylesheet" href="{% static 'css/scan.css' %}">
+    
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="{% static 'assets/logo.jpeg' %}" alt="Logo">
+                
+            </div>
+            <nav class="auth-actions">
+                {% comment %} <a href="{% url 'daily_logs' %}" class="auth-btn logout-btn">
+                <span >Secretary</span>
+            </a>
+             <a href="{% url 'admin:index' %}" class="auth-btn logout-btn ">
+                
+                <span >Admin</span>
+            </a> {% endcomment %}
+        
+                {% if user.is_authenticated %}
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="auth-btn logout-btn">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="auth-btn login-btn">Login</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+
+    {% block content%}
+    <main>
+{% comment %}         
+         <!-- Role Login Panel -->
+         {% endcomment %}
+
+        <section class="hero-section">
+
+            <div class="hero-image">
+                    <img src="{% static 'assets/QR-Attendance-App-OneTap.png' %}" alt="{{ imageAlt }}" />
+            </div>
+            <div class="hero-content">
+                <h1>Unified Attendance System </h1>
+                <h2>{{ subtitle }}</h2>
+                <p>This system is a modern, QR-based attendance tracking platform designed to streamline how institutions monitor presence and punctuality. Built with Django and enhanced by intuitive frontend workflows, it allows users to check in and out seamlessly using QR scans, while securely logging timestamps and geolocation data. Its core purpose is to eliminate manual attendance processes, reduce errors, and provide real-time insights into staff or student activity. With export features for PDF and Excel, role-based dashboards, and a clean, professional interface, the system empowers administrators and educators to manage attendance records efficiently, generate reports instantly, and make data-driven decisions with confidence.</p>
+                <div class="hero-buttons">
+                {% comment %} <a href="{%url 'login' %}" class="btn btn-primary">Get Started</a> {% endcomment %}
+                <a href="{{ 'do something' }}" class="btn btn-secondary">Learn More</a>
+                </div>
+            </div>
+                
+        </section>
+       
+    </main>
+     {% endblock %}
+
+    <footer>
+        
+        <p>&copy; {{ now.year }} Unified Attendance Software</p>
+    <p><a href="mailto:rexbabitong@gmail.com">Contact Support</a></p>
+    </footer>
+</body>
+</html>
+

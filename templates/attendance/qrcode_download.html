@@ -1,0 +1,18 @@
+{% comment %} {% extends "base.html" %}  {% endcomment %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/qrcode.css' %}">
+{% block content%}
+
+<div class="infor-qrcode">
+
+    <h2>General Attendance QR Code</h2>
+<img src="{{ qr_path }}" alt="QR Code" width="250" class="qrimg">
+<div class="qrbuttons">
+    <a href="{{ qr_path }}" download class="download">Download QR</a>
+    <button onclick="window.print()" class="buttonqr">Print QR</button>
+</div>
+
+</div>
+
+
+{% endblock %}
