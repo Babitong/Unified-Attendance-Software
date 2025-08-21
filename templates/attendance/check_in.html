@@ -10,7 +10,7 @@
   <style>
     #reader {
       width: 300px;
-      margin: auto;
+      margin:auto;
       padding: 10px;
       border: 2px solid #2a9d8f;
       border-radius: 8px;
@@ -18,10 +18,18 @@
     #qr-file {
       margin-top: 20px;
       display: block;
+      text-align: center;
+      margin-bottom: 30.5rem;
     }
+    main{
+      {% comment %} margin: 10rem auto; {% endcomment %}
+      padding: 10rem 0;
+    }
+    
   </style>
 </head>
 <body>
+  <main>
   <h2 style="text-align:center;">📸 QR Code Scanner</h2>
 
   <!-- Camera-based scanning -->
@@ -67,6 +75,7 @@
     });
   </script>
   {%  endblock %}
+</main>
 </body>
 </html>
 

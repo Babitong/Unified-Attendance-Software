@@ -1,0 +1,85 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <title>register</title>
+</head>
+<body>
+    {% if messages %}
+        {% for message in messages %}
+            <p style="color: green;"> {{ message }} </p>
+        {% endfor %}
+    {% endif %}
+
+    <section class="form-column">
+        <div class="get-started">
+            <h2>Create Account</h2>
+        </div>
+        <div >
+            <form action="{% url 'register' %}" method="post" class="flex-form">
+                {% csrf_token %}
+                <label for="firstname">First Name</label>
+                <input type="text" id="firstname" name="first_name" placeholder="rex " required>
+
+                <label for="lastname">Last Name</label>
+                <input type="text" id="lastname" name="last_name" placeholder=" solomon" required>
+
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="rexsolomon" required>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="rexsolomon@gmail.com" required>
+
+                <label for="phone_number">Phone Number</label>
+                <input type="tel" id="phone_number" name="phone_number" placeholder="672088918" required>
+
+                <label for="user_type">User Type</label>
+                <select name="user_type" id="user_type" required>
+                    <option value="">--None--</option>
+                    <option value="teacher">Teacher</option>
+                    
+                </select>
+
+                <label for="department">Department</label>
+                <select name="department" id="department">
+                    {% for dept in departments %}
+                        <option value="{{ dept.id }}"> {{ dept.name }} </option>
+                    {% endfor %}
+                </select>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+
+                {% comment %} <label for="repeat_password"> Repeat Password</label>
+                <input type="password" id="repeat_password" name="password" required> {% endcomment %}
+                <button type="submit" class="register-btn">Register</button>
+                <p>Already have an account? <a href="{% url 'login'%}">Login</a></p>
+
+            </form>
+
+    </div>
+    </section>
+    
+</body>
+</html> 
+
+
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-5">
+    <h2>Register</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+</body>
+</html> {% endcomment %}

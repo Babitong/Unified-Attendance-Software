@@ -2,13 +2,15 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.http import HttpResponseForbidden, HttpResponse
-from .models import AttendanceRecord
+from .models import AttendanceRecord 
 from users import models
 from datetime import timedelta, datetime
 from django.template.loader import get_template
-from openpyxl import Workbook
 from xhtml2pdf import pisa
 from HINETEC_ATTENDANCE_SYSTEM.utils import generate_attendance_chart 
+from users.models import Department , CustomUser
+from django.contrib import messages
+from django.contrib.auth.hashers import make_password
 
 from django.db.models import Count
 
@@ -42,14 +44,61 @@ def export_pdf(request):
 
 
 # Redirect after login based on user type
+# @login_required
+def register_view(request):
+    
+    departments =  Department.objects.all()
+
+    # getting user data
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        user_type = request.POST.get('user_type')
+        phone_number= request.POST.get('phone_number')
+        department_id = request.POST.get('department')
+        password = request.POST.get('password')
 
 
+        # check for existing username or email
+        if CustomUser.objects.filter(username=username).exists():
+            messages.error(request,"username already exists.")
+            return render(request, 'registration/register.html', {'departments': departments})
+        
+        if CustomUser.objects.filter(email=email).exists():
+            messages.error(request,"Email already exists.")
+            return render(request, 'registration/register.html', {'departments': departments})
+        
+        # Get department object
+        try:
+            department = Department.objects.get(id=department_id)
+        except Department.DoesNotExist:
+            messages.error(request, "Invalid department selected.")
+            return render(request , 'registration/register.html', {'departments': departments}) 
+
+        # creating user
+
+        CustomUser.objects.create(
+            first_name=first_name,
+            last_name=last_name,
+            username=username,
+            email=email,
+            user_type=user_type,
+            phone_number=phone_number,
+            department=department,
+            password=make_password(password) # Encrypt password
+        )  
+        messages.success(request, "Account created successfully! You can now login")
+        return redirect('login')
+        
+    return render(request,'registration/register.html', {'departments': departments})
 
 
 @login_required
 def post_login_redirect(request):
     if request.user.user_type == "teacher":
-        return redirect("check_in")
+        return redirect("teacher_home")
     elif request.user.user_type == "secretary":
         return redirect("daily_logs")
     else:
@@ -113,6 +162,8 @@ def daily_logs(request):
     if request.user.user_type.lower() != "secretary":
         return HttpResponseForbidden("Access denied.")
     
+        # return render(request, )
+    
     
     
     # check if the user clicked "show all records"
@@ -138,6 +189,9 @@ def daily_logs(request):
     # Generate the chart
     chart_base64 = generate_attendance_chart(formatted_data)
 
+    # Total number of teachers
+    teacher_count = CustomUser.objects.filter(user_type='teacher').count()
+
 
 
     return render(request, "attendance/daily_logs.html", {
@@ -145,6 +199,7 @@ def daily_logs(request):
         "today": today_label,
         "show_all": show_all,
         "chart_base64": chart_base64,
+        "teacher_count": teacher_count,
         }) 
         # date_str = request.GET.get("date")
         # records = AttendanceRecord.objects.all().order_by("scanned_at")
@@ -159,11 +214,69 @@ def daily_logs(request):
     
 @login_required
 def teacher_home_view(request):
-    return render(request, "attendance/teacher_home.html")
+
+     
+    # check if the user clicked "show all records"
+    show_all = request.GET.get("view") == "all"
+    if show_all:
+        records = AttendanceRecord.objects.filter(user=request.user).order_by('-date', '-scanned_at')
+        today_label = "All Attendance Records"
+        
+        
+
+    else:
+        today = timezone.localdate()
+        records = AttendanceRecord.objects.filter(date=today).select_related('user')
+        today_label = today.strftime("%A, %d %B %Y")
+        
+        
+    return render(request, "attendance/teacher_home.html", {
+            "records": records,
+        "today": today_label,
+        "show_all": show_all,
+        
+        })
 
 def download_qr_page(request):
     qr_path = "/media/qrcodes/general_qrcode.png"
     return render(request, "attendance/qrcode_download.html", {"qr_path":qr_path})
+
+
+@login_required
+def dashboard_view(request):
+     # check if the user clicked "show all records"
+    show_all = request.GET.get("view") == "all"
+    if show_all:
+        records = AttendanceRecord.objects.select_related('user').order_by('-date', '-scanned_at')
+        today_label = "All Attendance Records"
+
+    else:
+        today = timezone.localdate()
+        records = AttendanceRecord.objects.filter(date=today).select_related('user')
+        today_label = today.strftime("%A, %d %B %Y")
+
+    # Generate attendance chart data
+    attendance_data = (
+        records
+        .values('user__username')
+        .annotate(count=Count('date', distinct=True))
+        .order_by('-count')
+    )
+    # Format data for the chart
+    formatted_data = [{"user":entry['user__username'], "count": entry['count']} for entry in attendance_data]
+    # Generate the chart
+    chart_base64 = generate_attendance_chart(formatted_data)
+
+
+
+    return render(request, "dashboard.html", {
+            "records": records,
+        "today": today_label,
+        "show_all": show_all,
+        "chart_base64": chart_base64,
+        }) 
+   
+    
 
 # Secretary Dashboard charts and statistics
 

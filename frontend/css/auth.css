@@ -13,6 +13,7 @@
     padding:0;
     max-width: 1200px;
     gap: 2rem;
+    background: whitesmoke;
 }
 
 .login-title {
@@ -40,12 +41,31 @@
 
 
 
+
+
 .form-group {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     
     padding: 0  1rem;
+}
+.home a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem ;
+    color: #fff;
+    font-size: 17px;
+    text-decoration: none;
+    padding: 0.5rem 0;
+    background:#53ccee;
+    border: none;
+    border-radius: 4px;
+
+}
+.home a:hover{
+    background: var(--dark);
 }
 
 .form-group label {
@@ -56,16 +76,18 @@
 .form-group input {
     margin-bottom: 1rem;
     padding: 0.75rem ;
-    border: 1px solid #ddd;
     border-radius: 6px;
-    font-size: 1.75rem;
+    font-size: 1rem;
+    border: none;
+    background: white;
+
 }
 
 
 .error-message {
     color: #e74c3c;
     text-align: center;
-    margin-bottom: 1rem;
+    /* margin-bottom: 1rem; */
 }
 
 @media  screen and (max-width: 480px){

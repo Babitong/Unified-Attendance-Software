@@ -51,8 +51,9 @@ INSTALLED_APPS = [
 # custom user model
 AUTH_USER_MODEL = 'users.CustomUser'
 
-# LOGIN_URL = 'login'
+
 LOGIN_REDIRECT_URL = "post_login_redirect"
+# LOGIN_REDIRECT_URL = "register_view"
 LOGOUT_REDIRECT_URL = 'base'
 
 # media files 

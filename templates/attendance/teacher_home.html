@@ -3,7 +3,7 @@
 
 {% block content%}
 
-<h2>👋 Welcome, {{ user.get_full_name|default:user.username }}</h2>
+{% comment %} <h2>👋 Welcome, {{ user.get_full_name|default:user.username }}</h2>
 
 <p>✅ Checked in at: {{ scanned_at }}</p>
 
@@ -33,14 +33,177 @@
     <button><a href="{% url 'check_in'%}">📷 Scan Attendance</a></button>
     <button>📄 View My Logs</button>
     <button>🚩 View Today's Logs</button>
-    {% comment %} <button>⚙️ Utility</button> {% endcomment %}
+    {% comment %} <button>⚙️ Utility</button> 
   </section>
 
 
   <script src="{% static 'teacher-dashboard.js'%}"></script>
+</body> 
+</html>
+{% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Dashboard</title>
+  <link rel="stylesheet" href="{% static 'css/teacher-dashboard.css' %} ">
+  <link rel="stylesheet" href="{% static 'css/daily-logs.css' %} ">
+</head>
+<body class="body">
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    {% comment %} <h2>Unified Attendance System</h2> {% endcomment %}
+    <ul>
+      <li><a href="#" class="btn">Scan Attendance</a></li>
+      <li><a href="#">Export As PDF</a></li>
+      {% comment %} <li><a href="#">Calendar</a></li>
+      <li><a href="#">Analytics</a></li> {% endcomment %}
+      <li><a href="#">View Generative Report</a></li>
+      <hr>
+      <li><a href="#">Settings</a></li>
+      <li><a href="#">Help</a></li>
+      {% comment %} <li>
+        
+          {% if user.is_authenticated %}
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn">Login</a>
+                {% endif %}
+        
+      </li> {% endcomment %}
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <div class="topbar">
+      <input type="text" placeholder="Search task...">
+      <button class="btn" onclick="toggleSidebar()">☰</button>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2 class="stats">Greetings</h2>
+        <p>👋 Welcome, {{ user.get_full_name|default:user.username }} </p>
+        <h3>Department:</h3>
+        <p> {{user.department|default:'Not assigned'}} </p> 
+      </div>
+      <div class="card">
+        <h3>Running Projects</h3>
+        <p class="stats">12</p>
+      </div>
+      <div class="card">
+        <h3>Pending Projects</h3>
+        <p class="stats">2</p>
+      </div>
+      <div class="card">
+        <h3>Project Progress</h3>
+        <div class="progress"><span></span></div>
+        <p>41% Completed</p>
+      </div>
+      
+      
+
+      </div>
+      <div class="card">
+      <h2 class="dashboard-heading"> Daily Attendance logs for  {{ request.user.username }} {{today}}</h2>
+  {% if records %}
+    <div class="attendance-table-wrapper">
+    <form method"get" class="date-filter">
+      {% if show_all%}
+      <a href="{% url 'teacher_home' %}" class="btn button">Back to Today's Logs</a>
+      
+      {% else %}
+      <a href="?view=all" class="btn button">Show All Records</a>
+       
+        
+      {% endif %}
+      
+    </form>
+
+        <div class="export-buttons">
+      <h2>📤 Export Attendance Logs</h2>
+      <div style="margin-top: 10px;">
+        {% comment %} <a href="{% url 'export_excel' %}" class="btn btn-success">📥 Export to Excel</a> {% endcomment %}
+        <a href="{% url 'pdf' %}?view={{ request.GET.view }}" class="btn btn-danger">📄 Export to PDF</a>
+      </div>
+
+    
+    </div>
+    
+    
+     <table class="attendance-table">
+      {% comment %} <p class="display">Swipe left or right to view attendance</p> {% endcomment %}
+      <thead>
+        <tr>
+        <th>Users</th>
+        <th>Departments
+          
+        </th
+        ><th>Date</th>
+         <th>Hours Worked</th>
+        <th>Check-in</th>
+        <th>Check-out</th>
+       
+        
+      </tr>
+      </thead>
+
+
+      <tbody>
+        {% for r in records %}
+        <tr>
+          <td class="td-text">{{ r.user.username }}</td>
+          <td class="td-text">{{r.user.department.name}}
+            
+          </td>
+          <td class="td-text">{{r.scanned_at|date:"Y-m-d"}}</td>
+          <td>
+            {{r.hours_worked}}
+          </td> 
+          <td class="{% if r.scanned_at %}status-ok-in {% else %}status-missing-in{%endif%}">{{ r.scanned_at|date:"H:i:s" }}</td>
+          <td class="{% if r.checked_out_at %}status-ok {% else %}status-missing{%endif%}">
+          {% if r.checked_out_at %}
+          {{ r.checked_out_at|date:"H:i:s" }}
+          {% else %}
+          -
+          {% endif %}</td>
+
+          
+        </tr>
+      {% endfor %}
+      <tbody>
+      
+    </table>
+    </div>
+  
+   
+  {% else %}
+    <p class="no-records ">-No attendance records yet today-.</p>
+    <a href="?view=all" class="btn button">Show All Records</a>
+    
+        {% comment %} <a href="{% url 'daily_logs'%}" class="reset-link">Reset</a> {% endcomment %}
+      
+  {% endif %}
+  </div>
+
+  </div>
+
+      
+      
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
-
-
 {% endblock %}
+
+
 

@@ -3,7 +3,86 @@
 {% load static %}
 
 {% block content %}
-  <h2 class="dashboard-heading"> Daily Attendance logs  {{ request.user.department.name }} {{today}}</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Dashboard</title>
+  <link rel="stylesheet" href="{% static 'css/teacher-dashboard.css' %} ">
+  <link rel="stylesheet" href="{% static 'css/daily-logs.css' %} ">
+</head>
+<body class="body">
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    {% comment %} <h2>Unified Attendance System</h2> {% endcomment %}
+    <ul>
+      <li><a href="{% url 'dashboard' %}" class="btn">View Attendance Logs</a></li>
+      <li><a href="{% url 'pdf' %}">Export Attendance</a></li>
+      <li><a href="{% url 'qrcode_download' %}">Download QR Code</a></li>
+      <hr>
+      <li><a href="#">Settings</a></li>
+      <li><a href="#">Help</a></li>
+      {% comment %} <li>
+        
+          {% if user.is_authenticated %}
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn">Login</a>
+                {% endif %}
+        
+      </li> {% endcomment %}
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <div class="topbar">
+      <input type="text" placeholder="Search task...">
+      <button class="btn" onclick="toggleSidebar()">☰</button>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2 class="stats">Welcome 👋</h2>
+        <p>{{ user.get_full_name|default:user.username }} </p>
+        <h3>Department:</h3>
+        <p> {{user.get_full_name|default:user.department}} </p> 
+      </div>
+      <div class="teacher-card">
+        <h3>Total Teachers</h3>
+        <p class="stats">{{teacher_count}}</p>
+      </div>
+      <div class="card">
+        <h3>Male</h3>
+        <p class="stats">2</p>
+      </div>
+      <div class="card">
+        <h3>Female</h3>
+        <div class="progress"><span></span></div>
+        <p>
+          {% comment %} <img src="data:image/png;base64,{{ chart_base64 }}" alt="Attendance Chart" class="chart"> {% endcomment %}
+        </p>
+      </div>
+      
+      
+      
+  
+
+
+
+
+
+
+
+
+    </div>
+    {% comment %} <div class="card">
+    <h2 class="dashboard-heading"> Daily Attendance logs  {{ request.user.department.name }} {{today}}</h2>
   {% if records %}
   <div class="attendance-table-wrapper">
     <form method"get" class="date-filter">
@@ -18,7 +97,7 @@
     <div class="export-buttons">
       <h2>📤 Export Attendance Logs</h2>
       <div style="margin-top: 10px;">
-        {% comment %} <a href="{% url 'export_excel' %}" class="btn btn-success">📥 Export to Excel</a> {% endcomment %}
+        
         <a href="{% url 'pdf' %}?view={{ request.GET.view }}" class="btn btn-danger">📄 Export to PDF</a>
       </div>
 
@@ -27,7 +106,7 @@
     
     
      <table class="attendance-table">
-      {% comment %} <p class="display">Swipe left or right to view attendance</p> {% endcomment %}
+      
       <thead>
         <tr>
         <th>Users</th>
@@ -77,10 +156,15 @@
    
   {% else %}
     <p class="no-records ">-No attendance records yet today-.</p>
+    <a href="?view=all" class="btn button">Show All Records</a>
     
-        {% comment %} <a href="{% url 'daily_logs'%}" class="reset-link">Reset</a> {% endcomment %}
+        
       
   {% endif %}
+  </div>
+
+  </div> {% endcomment %}
+
 {% endblock %}
 
  

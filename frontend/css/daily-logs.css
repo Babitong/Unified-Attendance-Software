@@ -181,6 +181,10 @@ body{
     padding: 2rem;
 }
 
+.no-records{
+    margin: 19.5rem auto;
+}
+
 
 /* =====  MOBILE RESPONSIVE VIEW ==== */
 @media  screen and (max-width: 480px) {

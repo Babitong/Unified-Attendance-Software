@@ -8,7 +8,7 @@
 }
 
 :root {
-    --primary: linear-gradient(135deg, #007bff, #00c6ff);;
+    --primary: linear-gradient(135deg, #007bff, #00c6ff);
     --primary-dark: #3a56d4;
     --light: #f8f9fa;
     --dark: linear-gradient( #2c2c2c, #1a1a1a, #000000);
@@ -20,6 +20,10 @@ body {
     font-family: 'Segoe UI', system-ui, sans-serif;
     margin: 0;
     padding: 0;
+    
+    
+   
+    
     /* min-height: 100vh;
     display: flex;
     flex-direction: column; */
@@ -35,6 +39,8 @@ header {
     padding: 1rem 2rem;
     position: sticky;
     top: 0;
+    z-index: 1;
+    
 }
 
 .header-container {
@@ -47,7 +53,9 @@ header {
 
 }
 
-/* .logo {
+/* LOGO AND LOGIN SECTION */
+
+.logo {
     display: flex;
     align-items: center;
    
@@ -61,7 +69,7 @@ header {
 .logo h1 {
     font-size: 1.5rem;
     margin: 0;
-} */
+} 
 
 .auth-actions {
     display: flex;
@@ -105,7 +113,8 @@ header {
 
 main {
     flex: 1;
-    padding: 2rem;
+    /* padding: 2rem; */
+     
 }
 
 .login-section {
@@ -113,59 +122,31 @@ main {
   padding: 2rem;
 }
 
-.role-buttons {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  justify-content: center;
-  gap: 2rem;
-  margin: 1rem  4rem;
-  
-}
-
-
-.role-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-decoration: none;
-  padding: 1rem;
-  /* border: 2px solid #4361ee; */
-  border-radius: 10px;
-  width: 250px;
-  background: white;
-  transition: 0.3s ease;
-}
-
-.role-card:hover {
-  background: #e6f0ff;
-  transform: scale(1.05);
-}
-
-.role-card img {
-  width: 100%;
-  height: auto;
-  margin-bottom: 0.5rem;
-  
-}
+/* HERO SECTION */
 
 .hero-section {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  /* flex-wrap: wrap; */
+  justify-content: center;
   align-items: center;
   padding: 40px 20px;
-  background-color: #f9f9f9;
+  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.25);
+  margin-bottom: 2rem;
+
+   
 }
 
 .hero-content {
-  flex: 1 1 400px;
-  max-width: 600px;
+  /* flex: 1 1 400px; */
+  max-width: 1000px;
   text-align: center;
 }
 
 .hero-content h1 {
-  font-size: 36px;
-  color: #333;
+  font-size: 4rem;
+  /* color: #333; */
+  color: #e74c3c;
 }
 
 .hero-content h2 {
@@ -174,9 +155,10 @@ main {
 }
 
 .hero-content p {
-  font-size: 16px;
+  font-size: 20px;
   color: #666;
   margin: 20px 0;
+  text-align: left;
 }
 
 .hero-buttons {
@@ -184,6 +166,9 @@ main {
   justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
+}
+.hero-buttons a{
+  font-size: 1.5rem;
 }
 
 .btn {
@@ -201,13 +186,36 @@ main {
   background-color: #3498db;
 }
 
-.hero-image {
-  flex: 1 1 300px;
-  text-align: center;
-  margin-top: 20px;
+/* ABOUT SECTION */
+
+.about {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  margin: 0 1rem;
+  line-height: 30px;
+  /* max-width: 1000px; */
+}
+.about h2{
+  font-size: 2rem;
 }
 
-.hero-image img {
+.about-image {
+  padding: 2rem;
+  /* flex: 1 1 300px;
+  text-align: center;
+  margin-top: 20px; */
+}
+.about-text{
+  margin: 0 1rem;
+}
+.about-text li{
+  margin: 0 2rem;
+}
+
+.about-image img {
   width: 100%;
 }
 
@@ -233,9 +241,12 @@ main {
 }
 
 
+
+
 .features{
   background-color: #faf6f6;
   padding: 0 2rem;
+  margin: 2rem auto;
 }
 .features h2{
     text-align: center;
@@ -261,7 +272,7 @@ main {
 .features-column-items{
     background: #eef3f8;
     text-align: center;
-    padding: 3rem 1rem;
+    padding: 3rem 3rem;
     border-radius: 6px;
     transition: 0.3s ease;
 }
@@ -307,94 +318,13 @@ footer a{
       height: 0vh;
       width: 50vh;
     } */
+
+    .about{
+      display: flex;
+      flex-direction: column;
+    }
     
 }
 
-
-/*
-body {
-  font-family: 'Segoe UI', sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #f9fbfd;
-}
-
-.page-header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem 2rem;
-  background: #003366;
-  color: white;
-}
-
-.logo {
-  width: 10%;
-  height: auto;
-}
-
-.tagline {
-  font-size: 1rem;
-  color: #ccc;
-}
-
-.login-section {
-  text-align: center;
-  padding: 2rem;
-}
-
-.role-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 1rem;
-}
-
-.role-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-decoration: none;
-  padding: 1rem;
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  width: 150px;
-  background: white;
-  transition: 0.3s ease;
-}
-
-.role-card:hover {
-  background: #e6f0ff;
-  transform: scale(1.05);
-}
-
-.role-card img {
-  width: 100%;
-  height: auto;
-  margin-bottom: 0.5rem;
-}
-
-.features {
-  padding: 2rem;
-  background: #eef3f8;
-}
-
-.features ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.features li {
-  margin-bottom: 1rem;
-  font-size: 1rem;
-}
-
-footer {
-  background: #003366;
-  color: white;
-  text-align: center;
-  padding: 1rem;
-}
-  */
 
 

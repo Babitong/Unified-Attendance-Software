@@ -1,4 +1,4 @@
-{% extends 'base.html'%}
+{% comment %} {% extends 'base.html'%} {% endcomment %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -17,14 +17,17 @@
     <div class="login-container">
         <div class="login-title">
             <h2 >Welcome Back</h2>
+            {% comment %} <img src="{% static 'assets/original-ba68e98ea10e1867e831884c3b153387.png' %}" alt="{{ imageAlt }}" />  {% endcomment %}
+
         </div>
         
-        {% if form.errors %}
+        
+
+        <form method="post" action="{% url 'login' %}" class="login-form">
+            {% csrf_token %}
+            {% if form.errors %}
         <p class="error-message">Invalid username or password</p>
         {% endif %}
-
-        <form method="post" class="login-form">
-            {% csrf_token %}
             <div class="form-group">
                 <label for="id_username">Username</label>
                 <input type="text" name="username" id="id_username" required>
@@ -39,6 +42,9 @@
                 <button type="submit" class="login-btn-auth login-btn">Login </button>
 
             </div>
+            <p >
+               Don't have an account? create account <a href="{% url 'register' %}"> register</a>
+            </p>
         </form>
     </div>
     {% endblock %}
