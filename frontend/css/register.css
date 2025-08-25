@@ -1,48 +1,88 @@
 
 .form-column{
-     margin: 50px auto;
+    margin: 4rem;
     align-items: center;
     display: grid;
     grid-template-columns: 1fr 1fr;
     justify-content: center; 
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    padding:0;
-    max-width: 1200px;
-    background: white;
-    /* gap: 1rem; */
+    background: white;padding: 1rem;
+
     
 }
 .get-started{
     background: linear-gradient(135deg, #007bff, #00c6ff);
-    color: #fff;
-    text-align: center;
-    padding: 60% 0;
-    font-size: 1.8rem;
-    text-wrap: wrap;
+    /* width: 100%; */
+    height: 100%;
+    padding: 0 3rem;
+    border-radius: 8px;
+    justify-content: center;
+    align-content: center;
+    /* line-height: 3rem; */
+
+}
+.get-started h1{
+    font-size: 3rem;
+    color: #ffffff;
+    text-align: left;
+}
+.get-started p{
+    text-align: left;
+    color: #ffffff;
+}
+.get-started img{
+    width: 100%;
+    
+    /* margin-top: 18rem; */
+    /* padding: 2rem; */
+    
+    
+   
+    
 }
 .flex-form{
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    background-color: whitesmoke;
-    padding: 2rem ;
-    /* margin:  auto 1rem; */
+    /* gap: 0.5rem; */
+    background-color: white;
+    padding: 0 4rem ;
+    
+}
+.flex-form .form-content{
+    display: flex;
+    flex-direction: column;
+}
+.form-content h1, p{
+    text-align: center;
+
+    color: #000;
+}
+.form-content p{
+    color: grey;
+}
+.flex-form img{
+    width: 30%;
 }
 
 .flex-form input{
     margin-bottom: 1rem;
     padding: 0.75rem ;
-    border: 1px solid #ddd;
+    background: whitesmoke;
     border-radius: 6px;
     font-size: 1rem;
     border: none;
 
 }
 .flex-form label{
-    font-weight: 800;
     font-size: larger;
     margin: 0 0.5rem;
+}
+.flex-form select{
+    padding: 16px;
+    border: none;
+    background: whitesmoke;
+    border: 6px;
 }
 .register-btn{
     background: linear-gradient(135deg, #007bff, #00c6ff);
@@ -56,6 +96,15 @@
 }
 .register-btn:hover{
     background: #192d42;
+}
+.form-footer{
+    display: flex;
+    justify-content: space-between;
+    
+}
+.form-footer p{
+    color: grey;
+
 }
 
 @media  screen and (max-width: 480px){

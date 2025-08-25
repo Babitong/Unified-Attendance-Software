@@ -7,7 +7,7 @@ from users import models
 from datetime import timedelta, datetime
 from django.template.loader import get_template
 from xhtml2pdf import pisa
-from HINETEC_ATTENDANCE_SYSTEM.utils import generate_attendance_chart 
+from Unified_ATTENDANCE_SYSTEM.utils import generate_attendance_chart 
 from users.models import Department , CustomUser
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password

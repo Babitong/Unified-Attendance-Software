@@ -23,28 +23,17 @@
       <li><a href="{% url 'qrcode_download' %}">Download QR Code</a></li>
       <hr>
       <li><a href="#">Settings</a></li>
-      <li><a href="#">Help</a></li>
-      {% comment %} <li>
-        
-          {% if user.is_authenticated %}
-                    <form action="{% url 'logout' %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit" class="btn">Logout</button>
-                    </form>
-                {% else %}
-                    <a href="{% url 'login' %}" class="btn">Login</a>
-                {% endif %}
-        
-      </li> {% endcomment %}
+      <li><a href="mailto:rexbabitong@gmail.com">Help</a></li>
+      
     </ul>
   </div>
 
   <!-- Main Content -->
   <div class="main">
     <div class="topbar">
-      <input type="text" placeholder="Search task...">
+      {% comment %} <input type="text" placeholder="Search task..."> {% endcomment %}
       <button class="btn" onclick="toggleSidebar()">☰</button>
-    </div>
+    </div> 
 
     <div class="grid">
       <div class="card">
@@ -53,118 +42,74 @@
         <h3>Department:</h3>
         <p> {{user.get_full_name|default:user.department}} </p> 
       </div>
+      <div class="card">
+        <h3>Time Tracker</h3>
+        <div class="time" id="time">00:00:00</div>
+        <button class="btn" onclick="startTimer()">Start</button>
+        <button class="btn" onclick="stopTimer()">Stop</button>
+        <button class="btn" onclick="resetTimer()">Reset</button>
+      </div>
       <div class="teacher-card">
         <h3>Total Teachers</h3>
         <p class="stats">{{teacher_count}}</p>
       </div>
       <div class="card">
-        <h3>Male</h3>
+        <h3>Checked in</h3>
         <p class="stats">2</p>
       </div>
       <div class="card">
-        <h3>Female</h3>
+        <h3>Checked out</h3>
         <div class="progress"><span></span></div>
         <p>
           {% comment %} <img src="data:image/png;base64,{{ chart_base64 }}" alt="Attendance Chart" class="chart"> {% endcomment %}
         </p>
       </div>
-      
-      
-      
-  
-
-
-
-
-
-
-
-
-    </div>
-    {% comment %} <div class="card">
-    <h2 class="dashboard-heading"> Daily Attendance logs  {{ request.user.department.name }} {{today}}</h2>
-  {% if records %}
-  <div class="attendance-table-wrapper">
-    <form method"get" class="date-filter">
-      {% if show_all%}
-      <a href="{% url 'daily_logs' %}" class="btn button">Back to Today's Logs</a>
-      {% else %}
-      <a href="?view=all" class="btn button">Show All Records</a>
-      {% endif %}
-      
-    </form>
-
-    <div class="export-buttons">
-      <h2>📤 Export Attendance Logs</h2>
-      <div style="margin-top: 10px;">
-        
-        <a href="{% url 'pdf' %}?view={{ request.GET.view }}" class="btn btn-danger">📄 Export to PDF</a>
+      <div class="card">
+        <h3>Not Checked in</h3>
+        <p class="stats">2</p>
       </div>
-
-    
+      
     </div>
+    <script>
+              // Sidebar Toggle
+        function toggleSidebar() {
+          document.getElementById("sidebar").classList.toggle("active");
+        }
+
+        // Timer Logic
+        let timer, seconds = 0;
+
+        function updateTime() {
+          let hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
+          let mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+          let secs = String(seconds % 60).padStart(2, '0');
+          document.getElementById("time").textContent = `${hrs}:${mins}:${secs}`;
+        }
+
+        function startTimer() {
+          if (!timer) {
+            timer = setInterval(() => {
+              seconds++;
+              updateTime();
+            }, 1000);
+          }
+        }
+
+        function stopTimer() {
+          clearInterval(timer);
+          timer = null;
+        }
+
+        function resetTimer() {
+          stopTimer();
+          seconds = 0;
+          updateTime();
+        }
+
+
+
+    </script>
     
-    
-     <table class="attendance-table">
-      
-      <thead>
-        <tr>
-        <th>Users</th>
-        <th>Departments
-          
-        </th
-        ><th>Date</th>
-         <th>Hours Worked</th>
-        <th>Check-in</th>
-        <th>Check-out</th>
-       
-        
-      </tr>
-      </thead>
-
-
-      <tbody>
-        {% for r in records %}
-        <tr>
-          <td class="td-text">{{ r.user.username }}</td>
-          <td class="td-text">{{r.user.department.name}}
-            
-          </td>
-          <td class="td-text">{{r.scanned_at|date:"Y-m-d"}}</td>
-          <td>
-            {{r.hours_worked}}
-          </td> 
-          <td class="{% if r.scanned_at %}status-ok-in {% else %}status-missing-in{%endif%}">{{ r.scanned_at|date:"H:i:s" }}</td>
-          <td class="{% if r.checked_out_at %}status-ok {% else %}status-missing{%endif%}">
-          {% if r.checked_out_at %}
-          {{ r.checked_out_at|date:"H:i:s" }}
-          {% else %}
-          -
-          {% endif %}</td>
-
-          
-        </tr>
-      {% endfor %}
-      <tbody>
-      
-    </table>
-
-    <img src="data:image/png;base64,{{ chart_base64 }}" alt="Attendance Chart" class="chart">
-    
-  </div>
-  
-   
-  {% else %}
-    <p class="no-records ">-No attendance records yet today-.</p>
-    <a href="?view=all" class="btn button">Show All Records</a>
-    
-        
-      
-  {% endif %}
-  </div>
-
-  </div> {% endcomment %}
-
 {% endblock %}
 
  

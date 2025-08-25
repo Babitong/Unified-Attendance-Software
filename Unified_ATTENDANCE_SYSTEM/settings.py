@@ -71,7 +71,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'HINETEC_ATTENDANCE_SYSTEM.urls'
+ROOT_URLCONF = 'Unified_ATTENDANCE_SYSTEM.urls'
 
 TEMPLATES = [
     {
@@ -88,7 +88,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'HINETEC_ATTENDANCE_SYSTEM.wsgi.application'
+WSGI_APPLICATION = 'Unified_ATTENDANCE_SYSTEM.wsgi.application'
 
 
 
@@ -160,11 +160,11 @@ STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 JAZZMIN_SETTINGS = {
-    "site_title": "HINETEC ADMINISTRATION",
+    "site_title": "Unified ADMINISTRATION",
 
     # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_header": "HINETEC ATTENDANCE ",
+    "site_header": "Unified ATTENDANCE ",
 
     # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_brand": "HINETEC ATTENDANCE SYSTEM",
+    "site_brand": "Unified ATTENDANCE SYSTEM",
 }

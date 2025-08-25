@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'HINETEC_ATTENDANCE_SYSTEM.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Unified_ATTENDANCE_SYSTEM.settings')
 
 application = get_asgi_application()

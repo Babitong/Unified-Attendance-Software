@@ -15,15 +15,15 @@
 
     {%block content%}
     <div class="login-container">
-        <div class="login-title">
-            <h2 >Welcome Back</h2>
-            {% comment %} <img src="{% static 'assets/original-ba68e98ea10e1867e831884c3b153387.png' %}" alt="{{ imageAlt }}" />  {% endcomment %}
-
-        </div>
         
-        
-
         <form method="post" action="{% url 'login' %}" class="login-form">
+            <p>
+            <a href="{% url 'base' %}" class=""><img src="{% static 'assets/logo.jpeg' %}" alt="{{ imageAlt }}" /> </a>
+            </p>
+            <div class="login-form-text">
+                <h1>Hella, Welcome Back</h1>
+                <p>Hey, Welcome back to your special place<p>
+            </div>
             {% csrf_token %}
             {% if form.errors %}
         <p class="error-message">Invalid username or password</p>
@@ -39,13 +39,22 @@
             </div>
             
             <div class="form-group">
-                <button type="submit" class="login-btn-auth login-btn">Login </button>
+                <button type="submit" class="login-btn-auth ">Sign In </button>
 
             </div>
             <p >
-               Don't have an account? create account <a href="{% url 'register' %}"> register</a>
+               Don't have an account? create account <a href="{% url 'register' %}"> Sign Up</a>
             </p>
         </form>
+        <div class="login-title">
+            {% comment %} <h2 >Welcome Back</h2> {% endcomment %}
+            <img src="{% static 'assets/hero2.webp' %}" alt="{{ imageAlt }}" /> 
+
+        </div>
+        
+        
+
+        
     </div>
     {% endblock %}
 </body>

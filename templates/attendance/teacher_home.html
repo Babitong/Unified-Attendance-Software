@@ -3,45 +3,6 @@
 
 {% block content%}
 
-{% comment %} <h2>👋 Welcome, {{ user.get_full_name|default:user.username }}</h2>
-
-<p>✅ Checked in at: {{ scanned_at }}</p>
-
-{% if checked_out_at %}
-  <p>✅ Checked out at: {{ checked_out_at }}</p>
-{% elif can_checkout %}
-  <form method="post" action="{% url 'checkout' %}">
-    {% csrf_token %}
-    <button type="submit">Check Out Now</button>
-  </form>
-{% else %}
-  <p>⏳ You can check out after 4 hours have passed.</p>
-{% endif %}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Teacher Dashboard</title>
-  <link rel="stylesheet" href="{% static 'css/teacher-dashboard.css' %}" />
-</head>
-<body>
-  
-
-  <section class="quick-actions">
-    <button><a href="{% url 'check_in'%}">📷 Scan Attendance</a></button>
-    <button>📄 View My Logs</button>
-    <button>🚩 View Today's Logs</button>
-    {% comment %} <button>⚙️ Utility</button> 
-  </section>
-
-
-  <script src="{% static 'teacher-dashboard.js'%}"></script>
-</body> 
-</html>
-{% endcomment %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,40 +18,27 @@
   <div class="sidebar" id="sidebar">
     {% comment %} <h2>Unified Attendance System</h2> {% endcomment %}
     <ul>
-      <li><a href="#" class="btn">Scan Attendance</a></li>
+      <li><a href="{% url 'check_in'%}" class="btn">Scan Attendance</a></li>
       <li><a href="#">Export As PDF</a></li>
-      {% comment %} <li><a href="#">Calendar</a></li>
-      <li><a href="#">Analytics</a></li> {% endcomment %}
       <li><a href="#">View Generative Report</a></li>
       <hr>
       <li><a href="#">Settings</a></li>
       <li><a href="#">Help</a></li>
-      {% comment %} <li>
-        
-          {% if user.is_authenticated %}
-                    <form action="{% url 'logout' %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit" class="btn">Logout</button>
-                    </form>
-                {% else %}
-                    <a href="{% url 'login' %}" class="btn">Login</a>
-                {% endif %}
-        
-      </li> {% endcomment %}
+      
     </ul>
   </div>
 
   <!-- Main Content -->
   <div class="main">
     <div class="topbar">
-      <input type="text" placeholder="Search task...">
+      {% comment %} <input type="text" placeholder="Search task..."> {% endcomment %}
       <button class="btn" onclick="toggleSidebar()">☰</button>
-    </div>
+    </div> 
 
     <div class="grid">
       <div class="card">
-        <h2 class="stats">Greetings</h2>
-        <p>👋 Welcome, {{ user.get_full_name|default:user.username }} </p>
+        <h2 class="stats"> 👋 Welcome, </h2>
+        <p>{{ user.get_full_name|default:user.username }} </p>
         <h3>Department:</h3>
         <p> {{user.department|default:'Not assigned'}} </p> 
       </div>
@@ -106,6 +54,13 @@
         <h3>Project Progress</h3>
         <div class="progress"><span></span></div>
         <p>41% Completed</p>
+      </div>
+      <div class="card">
+        <h3>Time Tracker</h3>
+        <div class="time" id="time">00:00:00</div>
+        <button class="btn" onclick="startTimer()">Start</button>
+        <button class="btn" onclick="stopTimer()">Stop</button>
+        <button class="btn" onclick="resetTimer()">Reset</button>
       </div>
       
       
@@ -185,8 +140,9 @@
   
    
   {% else %}
+  <a href="?view=all" class="btn button">Show All Records</a>
     <p class="no-records ">-No attendance records yet today-.</p>
-    <a href="?view=all" class="btn button">Show All Records</a>
+    
     
         {% comment %} <a href="{% url 'daily_logs'%}" class="reset-link">Reset</a> {% endcomment %}
       
@@ -200,7 +156,46 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script >
+
+    // Sidebar Toggle
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("active");
+}
+
+// Timer Logic
+let timer, seconds = 0;
+
+function updateTime() {
+  let hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
+  let mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+  let secs = String(seconds % 60).padStart(2, '0');
+  document.getElementById("time").textContent = `${hrs}:${mins}:${secs}`;
+}
+
+function startTimer() {
+  if (!timer) {
+    timer = setInterval(() => {
+      seconds++;
+      updateTime();
+    }, 1000);
+  }
+}
+
+function stopTimer() {
+  clearInterval(timer);
+  timer = null;
+}
+
+function resetTimer() {
+  stopTimer();
+  seconds = 0;
+  updateTime();
+}
+
+
+
+  </script>
 </body>
 </html>
 {% endblock %}

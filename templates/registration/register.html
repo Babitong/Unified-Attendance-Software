@@ -16,12 +16,18 @@
     {% endif %}
 
     <section class="form-column">
-        <div class="get-started">
-            <h2>Create Account</h2>
-        </div>
         <div >
             <form action="{% url 'register' %}" method="post" class="flex-form">
                 {% csrf_token %}
+                <div>
+                     
+                     <a href="{% url 'base' %}" class=""><img src="{% static 'assets/logo.jpeg' %}" alt="{{ imageAlt }}" /> </a>
+                
+                </div>
+                <div class="form-content">
+
+                <h1>Create an Account</h1>
+                <p>Join now to effortlessly manage and track your attendance.</p>
                 <label for="firstname">First Name</label>
                 <input type="text" id="firstname" name="first_name" placeholder="rex " required>
 
@@ -56,12 +62,24 @@
 
                 {% comment %} <label for="repeat_password"> Repeat Password</label>
                 <input type="password" id="repeat_password" name="password" required> {% endcomment %}
-                <button type="submit" class="register-btn">Register</button>
-                <p>Already have an account? <a href="{% url 'login'%}">Login</a></p>
+                <button type="submit" class="register-btn">Sign Up</button>
+                <p>Already have an account? <a href="{% url 'login'%}">Sign In</a></p>
 
+                </div>
+                <div class="form-footer">
+                    <p>&copy; {{ now.year }} Unified Attendance Software</p>
+                    <p>Privacy Policy</p>
+                </div>
             </form>
 
     </div>
+        <div class="get-started">
+            <h1>Effortlessly manage your attendance and operations.</h1>
+            <p>log in to access your dashboard and manage your attendance</p>
+            
+            <img src="{% static 'assets/register.webp' %}" alt="{{ imageAlt }}" />
+        </div>
+        
     </section>
     
 </body>
