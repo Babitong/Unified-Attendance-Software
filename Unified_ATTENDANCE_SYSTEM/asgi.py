@@ -1,5 +1,5 @@
 """
-ASGI config for HINETEC_ATTENDANCE_SYSTEM project.
+ASGI config for Unified_ATTENDANCE_SYSTEM project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -14,3 +14,4 @@ from django.core.asgi import get_asgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Unified_ATTENDANCE_SYSTEM.settings')
 
 application = get_asgi_application()
+
