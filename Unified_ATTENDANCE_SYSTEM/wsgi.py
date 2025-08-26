@@ -1,5 +1,5 @@
 """
-WSGI config for HINETEC_ATTENDANCE_SYSTEM project.
+WSGI config for Unified_ATTENDANCE_SYSTEM project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -13,8 +13,9 @@ sys.path.append(os.path.join(os.path.dirname(__file__),'..','apps'))
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'HINETEC_ATTENDANCE_SYSTEM.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Unified_ATTENDANCE_SYSTEM.settings')
 
 application = get_wsgi_application()
 
 app = application
+
