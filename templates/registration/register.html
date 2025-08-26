@@ -44,7 +44,7 @@
                 <input type="tel" id="phone_number" name="phone_number" placeholder="672088918" required>
 
                 <label for="user_type">User Type</label>
-                <select name="user_type" id="user_type" required>
+                <select name="user_type"  required>
                     {% for value, label in user_type_choices %}
                         <option value="{{ value }}"> {{ label }} </option>
                     {% endfor %}
@@ -53,7 +53,7 @@
                 </select>
 
                 <label for="department">Department</label>
-                <select name="department" id="department">
+                <select name="department" >
                     {% for dept in departments %}
                         <option value="{{ dept.id }}"> {{ dept.name }} </option>
                     {% endfor %}
