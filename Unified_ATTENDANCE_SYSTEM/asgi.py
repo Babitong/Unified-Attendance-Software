@@ -15,3 +15,4 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Unified_ATTENDANCE_SYSTEM.setti
 
 application = get_asgi_application()
 
+
