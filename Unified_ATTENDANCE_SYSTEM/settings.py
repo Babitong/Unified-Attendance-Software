@@ -26,12 +26,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-aht0pg2i0^bel@-hg%%npuidwzzopwb@=&9zug+clh^&9kti5l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
+    '.vercel.app',
     '127.0.0.1',
-    'localhost',
-    '042d1579afc6.ngrok-free.app/'
+    '.now.sh',
+
 ]
 
 
@@ -97,8 +98,12 @@ WSGI_APPLICATION = 'Unified_ATTENDANCE_SYSTEM.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'pjbFBpMekJbeysEhBmUGNSnxDUokujxH',
+        'HOST': 'yamanote.proxy.rlwy.net',
+        'PORT': '26967',
     }
 }
 
