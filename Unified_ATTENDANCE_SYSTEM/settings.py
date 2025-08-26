@@ -31,7 +31,7 @@ DEBUG = False
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    'https://uas-smh7.onrender.com',
+    'uas-smh7.onrender.com',
 
 ]
 
@@ -175,4 +175,5 @@ JAZZMIN_SETTINGS = {
     # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
     "site_brand": "Unified ATTENDANCE SYSTEM",
 }
+
 
