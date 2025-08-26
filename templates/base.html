@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{% static 'css/auth.css' %}">
     <link rel="stylesheet" href="{% static 'css/scan.css' %}">
     {% comment %} <link rel="stylesheet" href="{% static 'css/teacher-dashboard.css' %} "> {% endcomment %}
+    {% comment %} <link rel="stylesheet" href="{% static 'css/teacher-dashboard.css' %} "> {% endcomment %}
     <link rel="stylesheet" href="{% static 'css/daily-logs.css' %} ">
     
 </head>
@@ -23,15 +24,9 @@
                 
             </div>
             <nav class="auth-actions">
-                {% comment %} <a href="{% url 'daily_logs' %}" class="auth-btn logout-btn">
-                <span >Secretary</span>
-            </a>
-             <a href="{% url 'admin:index' %}" class="auth-btn logout-btn ">
                 
-                <span >Admin</span>
-            </a> {% endcomment %}
-        
-                {% if user.is_authenticated %}
+            <div  class="base-sidebar" id="base-sidebar">
+            {% if user.is_authenticated %}
                     <form action="{% url 'logout' %}" method="post">
                         {% csrf_token %}
                         <button type="submit" class="auth-btn logout-btn">Sign Out</button>
@@ -39,6 +34,14 @@
                 {% else %}
                     <a href="{% url 'login' %}" class="auth-btn login-btn">Sign In</a>
                 {% endif %}
+
+         </div>
+            <div class="base-topbar">
+      
+            <button class="btn-base" onclick="togglebase()">☰</button>
+         </div> 
+         
+                
             </nav>
         </div>
     </header>
@@ -75,7 +78,7 @@
 
         <section  class="about">
             <div class="about-image">
-                <img src="{% static 'assets/Attendance-Management-System.png' %}" alt="{{ imageAlt }}" /> 
+                <img src="{% static 'assets/attendance-management-features.webp' %}" alt="{{ imageAlt }}" /> 
             </div> 
             <div class="about-text">
                 <h2>What is Unified Attendance System</h2>
@@ -105,14 +108,11 @@
                 
 
                 <div class="features-column-items">
-
-                    <h4> QR Code Scanning Automatically Tracks Attendance</h4>
-                    <img src="{% static 'assets/b2.jpg' %}" alt="{{ imageAlt }}" /> 
+                    <h3>PDF Export</h3>
+                   
+        
                     <p>
-                        This system is a modern, QR-based attendance tracking platform designed to streamline how institutions monitor presence and punctuality.
-                    Built with Django and enhanced by intuitive frontend workflows, it allows users to check in and out seamlessly using QR scans,
-                    while securely logging timestamps and geolocation data. Its core purpose is to eliminate manual attendance processes, 
-                    reduce errors,
+                        Attendance records can be exported and printed out through pdf to ensure authenticity.
 
                     </p>
 
@@ -120,13 +120,20 @@
 
                 <div class="features-column-items">
 
-                    <h4> QR Code Scanning Automatically Tracks Attendance</h4>
-                    <img src="{% static 'assets/b2.jpg' %}" alt="{{ imageAlt }}" /> 
+                   <h3>Automatic Attendance Tracking</h3>
+                    
                     <p>
-                        This system is a modern, QR-based attendance tracking platform designed to streamline how institutions monitor presence and punctuality.
-                    Built with Django and enhanced by intuitive frontend workflows, it allows users to check in and out seamlessly using QR scans,
-                    while securely logging timestamps and geolocation data. Its core purpose is to eliminate manual attendance processes, 
-                    reduce errors,
+                       The is no need for a pen and any form of paper to track attendance, all attendance is tracked automatically via QR Code Scanning with geolocation tracking.
+                    </p>
+
+                </div> 
+
+                <div class="features-column-items">
+
+                    <h3>Role Base Login</h3>
+                     
+                     <p>
+                        Our system is structured to ensure all users have access only to their role base activity.
 
                     </p>
 
@@ -134,27 +141,10 @@
 
                 <div class="features-column-items">
 
-                    <h4> QR Code Scanning Automatically Tracks Attendance</h4>
-                    <img src="{% static 'assets/pdfexport_0-800x800.png' %}" alt="{{ imageAlt }}" /> 
+                   <h3>In App dashboard time-tracking</h3>
+                     
                     <p>
-                        This system is a modern, QR-based attendance tracking platform designed to streamline how institutions monitor presence and punctuality.
-                    Built with Django and enhanced by intuitive frontend workflows, it allows users to check in and out seamlessly using QR scans,
-                    while securely logging timestamps and geolocation data. Its core purpose is to eliminate manual attendance processes, 
-                    reduce errors,
-
-                    </p>
-
-                </div> 
-
-                <div class="features-column-items">
-
-                    <h4> QR Code Scanning Automatically Tracks Attendance</h4>
-                    <img src="{% static 'assets/b2.jpg' %}" alt="{{ imageAlt }}" /> 
-                    <p>
-                        This system is a modern, QR-based attendance tracking platform designed to streamline how institutions monitor presence and punctuality.
-                    Built with Django and enhanced by intuitive frontend workflows, it allows users to check in and out seamlessly using QR scans,
-                    while securely logging timestamps and geolocation data. Its core purpose is to eliminate manual attendance processes, 
-                    reduce errors,
+                       We have an in built time tracking feature to help each user track their work time while at work.
 
                     </p>
 
@@ -171,6 +161,13 @@
         <p>&copy; {{ now.year }} Unified Attendance Software</p>
     <p><a href="mailto:rexbabitong@gmail.com">Contact Support</a></p>
     </footer>
+
+    <script>
+              // Sidebar Toggle
+        function togglebase() {
+          document.getElementById("base-sidebar").classList.toggle("active");
+        }
+    </script>
 </body>
 </html>
 

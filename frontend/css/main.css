@@ -43,8 +43,28 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    align-content: center;
     
 
+}
+.base-topbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2rem;
+}
+
+.btn-base {
+  display: none;
+  background: #192d42;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  font-size: 1rem;
+  justify-content: center;
+  align-content: center;
 }
 
 /* LOGO AND LOGIN SECTION */
@@ -123,7 +143,7 @@ main {
   padding: 40px 8rem;
   backdrop-filter: blur(4px);
   background-color: rgba(0, 0, 0, 0.25);
-  margin-bottom: 4.5rem  ;
+  margin: 4.5rem  auto ;
   
 
    
@@ -189,12 +209,15 @@ main {
   justify-content: center;
   align-items: center;
   align-content: center;
-  margin: 4.5rem 1rem;
+  margin: 6rem 1rem;
   line-height: 30px;
   /* max-width: 1000px; */
 }
 .about h2{
   font-size: 2rem;
+}
+.about h3{
+  margin-top: 2rem;
 }
 
 .about-text{
@@ -239,19 +262,18 @@ main {
 
 /* FEATURES SECTION */
 .features{
-  background: #c0eaec;
+  
   margin: 100px auto;
   padding: 100px;
 }
 .features span{
-  background: #13141b;
   padding: 1rem;
   margin: auto 1rem;
   display: inline-block;
   font-size: 2rem;
   border-radius: 16px;
   border: none;
-  color: var(--white);
+  color: var(--dark);
 }
 
 .features-column{
@@ -259,22 +281,22 @@ main {
     grid-template-columns: repeat( 4 ,1fr);
     column-gap: 1.75rem;
     margin: 1rem auto;
-    padding: 16px;    
+    padding: 10px;    
 }
-.features-column-items p{
+.features-column-items {
     text-align: left;
-    font-size: 1em;
+    background: var(--dark);
+    padding: 50px;
+    border-radius: 50px;
+    color: #ffffff;
 }
-.features h4{
-  margin-bottom: 1rem;
+.features h3{
+  margin-bottom: 1.75rem;
   font-size: 1.5rem;
   text-align: center;
 }
 
-.features  img{
-  width: 100%;
-  
-}
+
 
 /* FOOTER SECTION */
 
@@ -293,6 +315,20 @@ footer a{
     .header{
     margin-bottom: 1rem;
     }
+/* SIDE BAR STYLES */
+    .base-sidebar {
+    position: fixed;
+    top: 150px;
+    left: -260px;
+    transition: left 0.3s;
+  }
+  .base-sidebar.active{ left: 0; }
+
+  .btn-base{
+    display: block;
+  }
+
+
     .features{
       margin: 100px auto;
       padding: 100px 0;

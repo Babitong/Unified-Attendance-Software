@@ -146,15 +146,16 @@ a { text-decoration: none; color: inherit; }
   margin: 1rem 0;
 }
 .btn {
-  /* background: linear-gradient(to left, #007bff, #091316); */
+  /* background: linear-gradient(135deg, #007bff,#007bff, #620672); */
   background: #192d42;
   color: #fff;
   border: none;
   padding: 0.5rem 1.2rem;
-  border-radius: 8px;
+  border-radius: 50px;
   cursor: pointer;
   margin-right: 0.5rem;
   font-size: 1rem;
+  /* display: none; */
 }
 
 hr{
@@ -170,8 +171,9 @@ hr{
 @media (max-width: 768px) {
   .sidebar {
     position: fixed;
-    left: -260px;
-    transition: left 0.3s;
+    left: -380px;
+    transition: left 0.9s;
+
   }
   .sidebar.active { left: 0; }
   .main {
@@ -180,5 +182,8 @@ hr{
   }
   .topbar input {
     width: 100%;
+  }
+  .btn{
+    display: block;
   }
 }
