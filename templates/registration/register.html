@@ -45,8 +45,10 @@
 
                 <label for="user_type">User Type</label>
                 <select name="user_type" id="user_type" required>
-                    <option value="">--None--</option>
-                    <option value="teacher">Teacher</option>
+                    {% for value, label in user_type_choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                    
                     
                 </select>
 
