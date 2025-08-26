@@ -1,5 +1,5 @@
 """
-ASGI config for HINETEC_ATTENDANCE_SYSTEM project.
+ASGI config for Unified_ATTENDANCE_SYSTEM project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 

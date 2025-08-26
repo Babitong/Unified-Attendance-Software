@@ -16,10 +16,9 @@ class AttendanceRecordAdmin(admin.ModelAdmin):
 
 
 class MyAdminSite(AdminSite):
-    site_header = 'HINETEC ADMINISTRATOR DASHBOARD'
+    site_header = 'UNIFIED ADMINISTRATOR DASHBOARD'
     site_title = 'ADMINISTRATOR PORTAL'
-    index_title = 'Welcome HINETEC ADMIN'
-
+    index_title = 'Welcome UNIFIED ADMIN'
 
     
 @admin.register(Department)
