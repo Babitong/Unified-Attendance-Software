@@ -103,7 +103,7 @@ def register_view(request):
         messages.success(request, "Account created successfully! You can now login")
         return redirect('login')
         
-    return render(request,'registration/register.html', {'departments': departments, 'user_type_choices': user_type_choices,,'admin_exists': admin_exists})
+    return render(request,'registration/register.html', {'departments': departments, 'user_type_choices': user_type_choices,'admin_exists': admin_exists})
 
 
 @login_required
@@ -290,6 +290,7 @@ def dashboard_view(request):
     
 
 # Secretary Dashboard charts and statistics
+
 
 
 
