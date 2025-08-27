@@ -29,7 +29,10 @@ SECRET_KEY = 'django-insecure-aht0pg2i0^bel@-hg%%npuidwzzopwb@=&9zug+clh^&9kti5l
 DEBUG = False
 
 ALLOWED_HOSTS = [
+<<<<<<< HEAD
     
+=======
+>>>>>>> 29c0dae88d3fd54c3986069716ed833ba67d3cbb
     '127.0.0.1',
     'localhost',
     'uas-smh7.onrender.com',
@@ -176,3 +179,5 @@ JAZZMIN_SETTINGS = {
     # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
     "site_brand": "Unified ATTENDANCE SYSTEM",
 }
+
+

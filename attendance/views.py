@@ -46,12 +46,23 @@ def export_pdf(request):
 # Redirect after login based on user type
 # @login_required
 def register_view(request):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 29c0dae88d3fd54c3986069716ed833ba67d3cbb
     # SETTING A DEFAULT DEPARTMENT FOR THE ADMIN
     if Department.objects.count() == 0:
         Department.objects.create(name="management")
     
     departments =  Department.objects.all()
+     # Check if an admin already exists
+    admin_exists = CustomUser.objects.filter(user_type='admin').exists()
+
+    # Dynamically set the user type based on the existence of an admin
+    if admin_exists:
+        user_type_choices = [('teacher', 'Teacher'), ('secretary', 'Secretary')]
+    else:
+        user_type_choices = [('admin', 'Admin'), ('teacher', 'Teacher'), ('secretary', 'Secretary')]
 
     # Check if an admin already exists
     admin_exists = CustomUser.objects.filter(user_type='admin').exists()
@@ -105,8 +116,13 @@ def register_view(request):
         )  
         messages.success(request, "Account created successfully! You can now login")
         return redirect('login')
+<<<<<<< HEAD
 
     return render(request,'registration/register.html', {'departments': departments,'user_type_choices': user_type_choices ,'admin_exists': admin_exists})
+=======
+        
+    return render(request,'registration/register.html', {'departments': departments, 'user_type_choices': user_type_choices,'admin_exists': admin_exists})
+>>>>>>> 29c0dae88d3fd54c3986069716ed833ba67d3cbb
 
 
 @login_required
@@ -293,6 +309,9 @@ def dashboard_view(request):
     
 
 # Secretary Dashboard charts and statistics
+
+
+
 
 
 
