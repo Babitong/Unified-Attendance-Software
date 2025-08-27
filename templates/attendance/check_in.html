@@ -40,6 +40,8 @@
 
   <script>
     const qrCode = new Html5Qrcode("reader");
+    // Flag to prevent multiple scans
+    let hasScanned = false;
 
     // Live camera scan
     qrCode.start(
@@ -49,7 +51,10 @@
         qrbox: 250
       },
       (decodedText) => {
-        console.log("Live QR Code scanned:", decodedText);
+        if (hasScanned) return;
+        hasScanned = true;
+
+        console.log(`Live QR Code scanned: ${decodedText}`);
         window.location.href = "/scan_qr_auto/?code=" + encodeURIComponent(decodedText);
       },
       (errorMessage) => {
@@ -62,18 +67,23 @@
     // File upload scan
     document.getElementById("qr-file").addEventListener("change", e => {
       const file = e.target.files[0];
-      if (!file) return;
+      if (!file || hasScanned) return;
+      hasScanned = true;
 
       qrCode.scanFile(file, true)
         .then(decodedText => {
-          console.log("Image QR Code scanned:", decodedText);
+          console.log(`Image QR Code scanned: ${decodedText}`);
           window.location.href = "/scan_qr_auto/?code=" + encodeURIComponent(decodedText);
         })
         .catch(err => {
           alert("❌ Couldn't read QR code from file.");
+          hasScanned = false; // Allow retry
         });
     });
   </script>
+
+
+
   {%  endblock %}
 </main>
 </body>
