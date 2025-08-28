@@ -46,10 +46,9 @@ def export_pdf(request):
 # Redirect after login based on user type
 # @login_required
 def register_view(request):
-<<<<<<< HEAD
 
-=======
->>>>>>> 29c0dae88d3fd54c3986069716ed833ba67d3cbb
+
+
     # SETTING A DEFAULT DEPARTMENT FOR THE ADMIN
     if Department.objects.count() == 0:
         Department.objects.create(name="management")
@@ -116,13 +115,9 @@ def register_view(request):
         )  
         messages.success(request, "Account created successfully! You can now login")
         return redirect('login')
-<<<<<<< HEAD
 
-    return render(request,'registration/register.html', {'departments': departments,'user_type_choices': user_type_choices ,'admin_exists': admin_exists})
-=======
-        
     return render(request,'registration/register.html', {'departments': departments, 'user_type_choices': user_type_choices,'admin_exists': admin_exists})
->>>>>>> 29c0dae88d3fd54c3986069716ed833ba67d3cbb
+
 
 
 @login_required
