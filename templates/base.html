@@ -19,7 +19,7 @@
     <header>
         <div class="header-container">
             <div class="logo">
-                <img src="{% static 'assets/logo.jpeg' %}" alt="Logo">
+                {% comment %} <img src="{% static 'assets/logo.jpeg' %}" alt="Logo"> {% endcomment %}
                 <h1>Unified Attendance Software</h1>
                 
             </div>
@@ -54,20 +54,20 @@
         <section class="hero-section">
 
             
-            <img src="{% static 'assets/staff-attendance-01.png' %}" alt="{{ imageAlt }}" /> 
+            {% comment %} <img src="{% static 'assets/staff-attendance-01.png' %}" alt="{{ imageAlt }}" />  {% endcomment %}
 
             <div class="hero-content">
                 <div class="hero-text">
-                    <h1>Unified Attendance System </h1>
+                    <h1>Track Attendance Smarter - Built for Schools, Ready for Scale</h1>
                     <p>
-                    Do you know you can automate attendance with 100% accuracy, Zero paper works and completely cheat proof. 
+                    QR-based check-ins, role-based dashboards, PDF/Excel exports, and real-time insights - all in one unified system.
                     </p>
-                    <div class="hero-buttons">
+                    <div class="cta-buttons">
                         
-                        <a href="{% url 'register' %}" class="btn btn-primary">Get Started</a>
+                        <a href="{% url 'register' %}" class="demo">Try Demo</a>
                     
-                    {% comment %} <a href="{% url 'register' %}" class="btn btn-primary">Get Started</a>  {% endcomment %}
-                    {% comment %} <a href="{{ 'do something' }}" class="btn btn-secondary">Learn More</a> {% endcomment %}
+                
+                        <a href="mailto:rexbabitong@gmail.com" class="call">Book a Call</a>
                     </div>
                 </div>
 
@@ -76,83 +76,66 @@
                 
         </section >
 
-        <section  class="about">
+        <section class="about-uas">
             <div class="about-image">
                 <img src="{% static 'assets/attendance-management-features.webp' %}" alt="{{ imageAlt }}" /> 
             </div> 
-            <div class="about-text">
-                <h2>What is Unified Attendance System</h2>
+            <div class="about-content">
+                
+                <h2>What Is Unified Attendance System?</h2>
                 <p>
-                    This system is a modern, QR-based attendance tracking platform designed to streamline how institutions monitor presence and punctuality.
-                    Built with Django and enhanced by intuitive frontend workflows, it allows users to check in and out seamlessly using QR scans,
-                    while securely logging timestamps and geolocation data. Its core purpose is to eliminate manual attendance processes, 
-                    reduce errors, and provide real-time insights into staff or student activity. With export features for PDF and Excel, 
-                    role-based dashboards, and a clean, professional interface, the system empowers administrators and educators to manage 
-                    attendance records efficiently, generate reports instantly, and make data-driven decisions with confidence.
+                Unified Attendance System is a smart, role-aware platform designed to help schools and institutions track attendance with speed, security, and clarity. It replaces manual logs with QR-based check-ins, personalized dashboards, and real-time analytics — all optimized for mobile.
                 </p>
+                <h3>How It Works</h3>
                 <ul>
-                    <h3> How it works</h3>
-                    <li>Regiter and Login with your Username and password.</li>
-                    <li>Automatically redirected to a check-in page scan to check-in.</li>
-                    <li>Go to dashboard</li>
-                    <li>After finishing your business</li>
-                    <li>Scan the QR code to check-out</li>
-                    <li>you are done</li>
+                <li><strong>Step 1:</strong> Admin registers and sets up departments.</li>
+                <li><strong>Step 2:</strong> Teachers and secretaries register under their assigned roles.</li>
+                <li><strong>Step 3:</strong> Users scan QR codes via camera or file upload to log attendance.</li>
+                <li><strong>Step 4:</strong> Dashboards display attendance logs, charts, and export options.</li>
                 </ul>
-            </div>   
-        </section> 
+            </div>
+</section>
+
+        
 
         <section class="features">
-            <span>Our Features offered</span>
-            <div class="features-column">
+  <h2>Features</h2>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <img src="{% static 'assets/one.jpeg' %}" alt="Security Icon">
+      <h3>QR Code Scanning</h3>
+      <p>Fast, mobile-friendly check-ins.</p>
+    </div>
+    <div class="feature-card">
+      <img src="{% static 'assets/one.jpeg' %}" alt="Security Icon">
+      <h3>Role-Based Dashboards</h3>
+      <p>Tailored views for teachers, secretaries, admins.</p>
+    </div>
+    <div class="feature-card">
+      <img src="{% static 'assets/c4da9521-afba-4ef9-92d0-7d284c485e55.jpeg' %}" alt="Analytics Icon">
+      <h3>Visual Analytics</h3>
+      <p>Charts that turn data into decisions.</p>
+    </div>
+    <div class="feature-card">
+      <img src="{% static 'assets/one.jpeg' %}" alt="Security Icon">
+      <h3>Secure Registration Flow</h3>
+      <p>First-time admin logic and role control.</p>
+    </div>
+  </div>
+</section>
+
+        <section class="cta">
+           <div class="container">
                 
-
-                <div class="features-column-items">
-                    <h3>PDF Export</h3>
-                   
-        
-                    <p>
-                        Attendance records can be exported and printed out through pdf to ensure authenticity.
-
-                    </p>
-
-                </div> 
-
-                <div class="features-column-items">
-
-                   <h3>Automatic Attendance Tracking</h3>
-                    
-                    <p>
-                       The is no need for a pen and any form of paper to track attendance, all attendance is tracked automatically via QR Code Scanning with geolocation tracking.
-                    </p>
-
-                </div> 
-
-                <div class="features-column-items">
-
-                    <h3>Role Base Login</h3>
-                     
-                     <p>
-                        Our system is structured to ensure all users have access only to their role base activity.
-
-                    </p>
-
-                </div> 
-
-                <div class="features-column-items">
-
-                   <h3>In App dashboard time-tracking</h3>
-                     
-                    <p>
-                       We have an in built time tracking feature to help each user track their work time while at work.
-
-                    </p>
-
-                </div> 
-
-                
+                <h2>Ready to Get Started?</h2>
+                <p>Join us today and experience the future of attendance tracking.</p>
+                <div class="cta-container">
+                     <div class="cta-buttons">
+                    <a href="{% url 'register' %}" class="demo">Try Demo</a>
+                    <a href="mailto:rexbabitong@gmail.com" class="call">Book a Call</a>
+                    </div>
+                </div>
         </section>
-       
     </main>
      {% endblock %}
 
