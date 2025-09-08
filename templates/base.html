@@ -10,8 +10,7 @@
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" href="{% static 'css/auth.css' %}">
     <link rel="stylesheet" href="{% static 'css/scan.css' %}">
-    {% comment %} <link rel="stylesheet" href="{% static 'css/teacher-dashboard.css' %} "> {% endcomment %}
-    {% comment %} <link rel="stylesheet" href="{% static 'css/teacher-dashboard.css' %} "> {% endcomment %}
+    
     <link rel="stylesheet" href="{% static 'css/daily-logs.css' %} ">
     
 </head>
@@ -19,7 +18,7 @@
     <header>
         <div class="header-container">
             <div class="logo">
-                {% comment %} <img src="{% static 'assets/logo.jpeg' %}" alt="Logo"> {% endcomment %}
+               
                 <h1>Unified Attendance Software</h1>
                 
             </div>
@@ -32,14 +31,16 @@
                         <button type="submit" class="auth-btn logout-btn">Sign Out</button>
                     </form>
                 {% else %}
-                    <a href="{% url 'login' %}" class="auth-btn login-btn">Sign In</a>
+                    <a href="#feature" class="auth-btn  login-btn ">Features</a>
+                     <a href="#about" class="auth-btn  login-btn">About us</a>
+                    <a href="{% url 'login' %}" class="auth-btn logout-btn">Sign In</a> 
                 {% endif %}
 
          </div>
-            <div class="base-topbar">
+        <div class="base-topbar">
       
             <button class="btn-base" onclick="togglebase()">☰</button>
-         </div> 
+        </div>  
          
                 
             </nav>
@@ -52,9 +53,6 @@
     <main>
 
         <section class="hero-section">
-
-            
-            {% comment %} <img src="{% static 'assets/staff-attendance-01.png' %}" alt="{{ imageAlt }}" />  {% endcomment %}
 
             <div class="hero-content">
                 <div class="hero-text">
@@ -76,7 +74,7 @@
                 
         </section >
 
-        <section class="about-uas">
+        <section class="about-uas" id="about">
             <div class="about-image">
                 <img src="{% static 'assets/attendance-management-features.webp' %}" alt="{{ imageAlt }}" /> 
             </div> 
@@ -98,7 +96,7 @@
 
         
 
-        <section class="features">
+        <section class="features" id="feature">
   <h2>Features</h2>
   <div class="feature-grid">
     <div class="feature-card">

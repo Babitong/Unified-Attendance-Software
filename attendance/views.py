@@ -55,20 +55,20 @@ def register_view(request):
     
     departments =  Department.objects.all()
      # Check if an admin already exists
-    admin_exists = CustomUser.objects.filter(user_type='admin').exists()
+    # admin_exists = CustomUser.objects.filter(user_type='admin').exists()
 
-    # Dynamically set the user type based on the existence of an admin
-    if admin_exists:
-        user_type_choices = [('teacher', 'Teacher'), ('secretary', 'Secretary')]
-    else:
-        user_type_choices = [('admin', 'Admin'), ('teacher', 'Teacher'), ('secretary', 'Secretary')]
+    # # Dynamically set the user type based on the existence of an admin
+    # if admin_exists:
+    #     user_type_choices = [('teacher', 'Teacher'), ('secretary', 'Secretary')]
+    # else:
+    #     user_type_choices = [('admin', 'Admin'), ('teacher', 'Teacher'), ('secretary', 'Secretary')]
 
     # Check if an admin already exists
     admin_exists = CustomUser.objects.filter(user_type='admin').exists()
 
     # Dynamically set the user type based on the existence of an admin
     if admin_exists:
-        user_type_choices = [('teacher', 'Teacher'), ('secretary', 'Secretary')]
+        user_type_choices = [('teacher', 'Teacher')]
     else:
         
         user_type_choices = [('admin', 'Admin'), ('teacher', 'Teacher'), ('secretary', 'Secretary')]

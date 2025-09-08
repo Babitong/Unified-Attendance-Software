@@ -15,14 +15,13 @@
 <body class="body">
 
   <!-- Sidebar -->
-  <div class="sidebar" id="sidebar">
+  <div class="sidebar"  id="sidebar">
     {% comment %} <h2>Unified Attendance System</h2> {% endcomment %}
     <ul>
-      <li><a href="{% url 'check_in'%}" class="btn">Scan Attendance</a></li>
+      <li><a href="{% url 'check_in'%}" class="logout-btn">Scan Attendance</a></li>
       <li><a href="#">Export As PDF</a></li>
       <li><a href="#">View Generative Report</a></li>
       <hr>
-      <li><a href="#">Settings</a></li>
       <li><a href="#">Help</a></li>
       
     </ul>
@@ -35,36 +34,52 @@
       <button class="btn" onclick="toggleSidebar()">☰</button>
     </div> 
 
-    <div class="grid">
-      <div class="card">
-        <h2 class="stats"> 👋 Welcome, </h2>
-        <p>{{ user.get_full_name|default:user.username }} </p>
-        <h3>Department:</h3>
-        <p> {{user.department|default:'Not assigned'}} </p> 
-      </div>
-      <div class="card">
-        <h3>Running Projects</h3>
-        <p class="stats">12</p>
-      </div>
-      <div class="card">
-        <h3>Pending Projects</h3>
-        <p class="stats">2</p>
-      </div>
-      <div class="card">
-        <h3>Project Progress</h3>
-        <div class="progress"><span></span></div>
-        <p>41% Completed</p>
-      </div>
-      <div class="card">
-        <h3>Time Tracker</h3>
-        <div class="time" id="time">00:00:00</div>
-        <button class="btn" onclick="startTimer()">Start</button>
-        <button class="btn" onclick="stopTimer()">Stop</button>
-        <button class="btn" onclick="resetTimer()">Reset</button>
-      </div>
-      
-      
+    {% comment %} NEW FEATURE {% endcomment %}
+    <div class="header">
+            <div class="header-content">
+                <div>
+                    <h1>Welcome, {{user.get_full_name}}</h1>
+                    <div class="header-info">{{user.department|default:'Not assigned'}}</div>
+                </div>
+                <div class="date-class-info">
+                    <div class="class-name">{{user.department}}</div>
+                    <div>Today: September 7, 2025</div>
+                </div>
+            </div>
+        </div>
 
+        <div class="action-buttons">
+            
+              <div class="action-card scan-card" onclick="openScanModal()">
+                <a href="{% url 'check_in'%}">
+                <div class="action-icon">📱</div>
+                <div class="action-title">Scan Attendance</div>
+                <div class="action-description">Use QR code or barcode scanner to quickly mark student attendance</div>
+                </a>
+            </div>
+            
+            <div class="action-card view-card" onclick="scrollToTable()">
+                <a href="">
+                  <div class="action-icon">👁️</div>
+                  <div class="action-title">View Attendance</div>
+                  <div class="action-description">View detailed attendance records and student status for today</div>
+                </a>
+            </div>
+            <div class="action-card chart-card" onclick="scrollToCharts()">
+                <div class="action-icon">📊</div>
+                <div class="action-title">View Charts</div>
+                <div class="action-description">Analyze attendance trends and patterns with visual charts</div>
+            </div>
+            <div class="action-card export-card" onclick="exportToPDF()">
+                <a href="">
+                  <div class="action-icon">📄</div>
+                  <div class="action-title">Export PDF</div>
+                  <div class="action-description">Generate and download attendance reports in PDF format</div>
+                </a>
+            </div>
+        </div>
+
+    <div class="grid">
       </div>
       <div class="card">
       <h2 class="dashboard-heading"> Daily Attendance logs for  {{ request.user.username }} {{today}}</h2>

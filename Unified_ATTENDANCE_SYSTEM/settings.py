@@ -100,12 +100,9 @@ WSGI_APPLICATION = 'Unified_ATTENDANCE_SYSTEM.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': 'pjbFBpMekJbeysEhBmUGNSnxDUokujxH',
-        'HOST': 'yamanote.proxy.rlwy.net',
-        'PORT': '26967',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR/ 'db.sqlite3',
+        
     }
 }
 

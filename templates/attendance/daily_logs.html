@@ -21,6 +21,7 @@
       <li><a href="{% url 'dashboard' %}" class="btn">View Attendance Logs</a></li>
       <li><a href="{% url 'pdf' %}">Export Attendance</a></li>
       <li><a href="{% url 'qrcode_download' %}">Download QR Code</a></li>
+      <li><a href="#">Forget Password Report</a></li>
       <hr>
       <li><a href="#">Settings</a></li>
       <li><a href="mailto:rexbabitong@gmail.com">Help</a></li>
@@ -29,47 +30,118 @@
   </div>
 
   <!-- Main Content -->
+  
   <div class="main">
     <div class="topbar">
-      {% comment %} <input type="text" placeholder="Search task..."> {% endcomment %}
+      
       <button class="btn" onclick="toggleSidebar()">☰</button>
     </div> 
 
-    <div class="grid">
-      <div class="card">
-        <h2 class="stats">Welcome 👋</h2>
-        <p>{{ user.get_full_name|default:user.username }} </p>
-        <h3>Department:</h3>
-        <p> {{user.get_full_name|default:user.department}} </p> 
-      </div>
-      <div class="card">
-        <h3>Time Tracker</h3>
-        <div class="time" id="time">00:00:00</div>
-        <button class="btn" onclick="startTimer()">Start</button>
-        <button class="btn" onclick="stopTimer()">Stop</button>
-        <button class="btn" onclick="resetTimer()">Reset</button>
-      </div>
-      <div class="teacher-card">
-        <h3>Total Teachers</h3>
-        <p class="stats">{{teacher_count}}</p>
-      </div>
-      <div class="card">
-        <h3>Checked in</h3>
-        <p class="stats">2</p>
-      </div>
-      <div class="card">
-        <h3>Checked out</h3>
-        <div class="progress"><span></span></div>
-        <p>
-          {% comment %} <img src="data:image/png;base64,{{ chart_base64 }}" alt="Attendance Chart" class="chart"> {% endcomment %}
-        </p>
-      </div>
-      <div class="card">
-        <h3>Not Checked in</h3>
-        <p class="stats">2</p>
-      </div>
-      
-    </div>
+     <div class="header">
+            <h1>Analytics Dashboard</h1>
+            <p>Real-time business insights and performance metrics</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value pulse">{{teacher_count}}</div>
+                <div class="stat-label">Total Users</div>
+                <div class="stat-change positive">↗ +12.5%</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value pulse">0</div>
+                <div class="stat-label">PRESENT TODAY</div>
+                <div class="stat-change positive">↗ +8.2%</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value pulse">2</div>
+                <div class="stat-label">ABSENT</div>
+                <div class="stat-change negative">↘ -3.1%</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value pulse">96.8%</div>
+                <div class="stat-label">ATTENDANCE RATE</div>
+                <div class="stat-change positive">↗ +0.5%</div>
+            </div>
+        </div>
+
+    {% comment %} NEW FEATURE  {% endcomment %}
+    <div class="charts-grid">
+            <div class="chart-container">
+                <div class="chart-title">WEEKLY ATTENDANCE TREND</div>
+                <div class="chart">
+                    <div class="bar" style="height: 60%;" data-value="2.4K"></div>
+                    <div class="bar" style="height: 80%;" data-value="3.2K"></div>
+                    <div class="bar" style="height: 45%;" data-value="1.8K"></div>
+                    <div class="bar" style="height: 90%;" data-value="3.6K"></div>
+                    <div class="bar" style="height: 75%;" data-value="3.0K"></div>
+                    <div class="bar" style="height: 85%;" data-value="3.4K"></div>
+                    <div class="bar" style="height: 70%;" data-value="2.8K"></div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">OVERALL TREND</div>
+                <div class="donut-chart">
+                    <div class="donut"></div>
+                    <div class="donut-center">
+                        <div class="donut-value">18.2K</div>
+                        <div class="donut-label">Total Visits</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <div class="chart-title">Recent Activity</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Action</th>
+                        <th>Status</th>
+                        <th>Time</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Sarah Johnson</td>
+                        <td>Purchase</td>
+                        <td><span class="status active">Active</span></td>
+                        <td>2 mins ago</td>
+                        <td>$249.99</td>
+                    </tr>
+                    <tr>
+                        <td>Michael Chen</td>
+                        <td>Registration</td>
+                        <td><span class="status pending">Pending</span></td>
+                        <td>5 mins ago</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Emma Wilson</td>
+                        <td>Login</td>
+                        <td><span class="status active">Active</span></td>
+                        <td>8 mins ago</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>David Rodriguez</td>
+                        <td>Purchase</td>
+                        <td><span class="status inactive">Failed</span></td>
+                        <td>12 mins ago</td>
+                        <td>$89.50</td>
+                    </tr>
+                    <tr>
+                        <td>Lisa Thompson</td>
+                        <td>Support Ticket</td>
+                        <td><span class="status pending">Pending</span></td>
+                        <td>15 mins ago</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     <script>
               // Sidebar Toggle
         function toggleSidebar() {
@@ -105,6 +177,33 @@
           seconds = 0;
           updateTime();
         }
+
+
+         // Add some interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate numbers on load
+            const statValues = document.querySelectorAll('.stat-value');
+            statValues.forEach(stat => {
+                const finalValue = stat.textContent;
+                stat.textContent = '0';
+                
+                setTimeout(() => {
+                    stat.textContent = finalValue;
+                    stat.style.transition = 'all 1s ease';
+                }, 500);
+            });
+
+            // Add click effects to cards
+            const cards = document.querySelectorAll('.stat-card, .chart-container, .table-container');
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+        });
 
 
 
