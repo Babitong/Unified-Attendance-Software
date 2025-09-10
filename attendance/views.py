@@ -7,12 +7,13 @@ from users import models
 from datetime import timedelta, datetime
 from django.template.loader import get_template
 from xhtml2pdf import pisa
-from Unified_ATTENDANCE_SYSTEM.utils import generate_attendance_chart 
+from utils import generate_attendance_chart 
 from users.models import Department , CustomUser
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 
 from django.db.models import Count
+ 
 
 
 
@@ -189,56 +190,16 @@ def already_checked_out_page(request):
 def daily_logs(request):
     if request.user.user_type.lower() != "secretary":
         return HttpResponseForbidden("Access denied.")
-    
-        # return render(request, )
-    
-    
-    
-    # check if the user clicked "show all records"
-    show_all = request.GET.get("view") == "all"
-    if show_all:
-        records = AttendanceRecord.objects.select_related('user').order_by('-date', '-scanned_at')
-        today_label = "All Attendance Records"
-
-    else:
-        today = timezone.localdate()
-        records = AttendanceRecord.objects.filter(date=today).select_related('user')
-        today_label = today.strftime("%A, %d %B %Y")
-
-    # Generate attendance chart data
-    attendance_data = (
-        records
-        .values('user__username')
-        .annotate(count=Count('date', distinct=True))
-        .order_by('-count')
-    )
-    # Format data for the chart
-    formatted_data = [{"user":entry['user__username'], "count": entry['count']} for entry in attendance_data]
-    # Generate the chart
-    chart_base64 = generate_attendance_chart(formatted_data)
-
+    teachers = CustomUser.objects.filter(user_type ='teacher')
     # Total number of teachers
     teacher_count = CustomUser.objects.filter(user_type='teacher').count()
-
-
-
     return render(request, "attendance/daily_logs.html", {
-            "records": records,
-        "today": today_label,
-        "show_all": show_all,
-        "chart_base64": chart_base64,
+        
         "teacher_count": teacher_count,
-        }) 
-        # date_str = request.GET.get("date")
-        # records = AttendanceRecord.objects.all().order_by("scanned_at")
+        "teachers": teachers,
 
-        # if date_str:
-        #     try:
-        #         filter_date = timezone.datetime.strptime(date_str,"%Y-%m-%d").date()
-        #         records = records.filter(scanned_at__date=filter_date)
-        #     except ValueError:
-        #         pass
-        # return render(request,"attendance/daily_logs.html",{"records": records, "scanned_date": date_str})
+        }) 
+        
     
 @login_required
 def teacher_home_view(request):

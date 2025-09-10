@@ -18,7 +18,7 @@
   <div class="sidebar" id="sidebar">
     {% comment %} <h2>Unified Attendance System</h2> {% endcomment %}
     <ul>
-      <li><a href="{% url 'dashboard' %}" class="btn">View Attendance Logs</a></li>
+      <li><a href="{% url 'dashboard' %}" class=" logout-btn">View Attendance Logs</a></li>
       <li><a href="{% url 'pdf' %}">Export Attendance</a></li>
       <li><a href="{% url 'qrcode_download' %}">Download QR Code</a></li>
       <li><a href="#">Forget Password Report</a></li>
@@ -96,49 +96,25 @@
             <table>
                 <thead>
                     <tr>
-                        <th>User</th>
-                        <th>Action</th>
+                        <th>User Name</th>
+                        <th>Department</th>
+                        <th>Email</th>
+                        <th>Phone number</th>
                         <th>Status</th>
-                        <th>Time</th>
-                        <th>Value</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Sarah Johnson</td>
-                        <td>Purchase</td>
-                        <td><span class="status active">Active</span></td>
-                        <td>2 mins ago</td>
-                        <td>$249.99</td>
-                    </tr>
-                    <tr>
-                        <td>Michael Chen</td>
-                        <td>Registration</td>
-                        <td><span class="status pending">Pending</span></td>
-                        <td>5 mins ago</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>Emma Wilson</td>
-                        <td>Login</td>
-                        <td><span class="status active">Active</span></td>
-                        <td>8 mins ago</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>David Rodriguez</td>
-                        <td>Purchase</td>
-                        <td><span class="status inactive">Failed</span></td>
-                        <td>12 mins ago</td>
-                        <td>$89.50</td>
-                    </tr>
-                    <tr>
-                        <td>Lisa Thompson</td>
-                        <td>Support Ticket</td>
-                        <td><span class="status pending">Pending</span></td>
-                        <td>15 mins ago</td>
-                        <td>-</td>
-                    </tr>
+                    {% for teacher in teachers %}
+                        <tr>
+                            <td>{{ teacher.username}}</td>
+                            <td>{{ teacher.department}}</td>
+                            <td>{{teacher.email}}</td>
+                            <td>{{teacher.phone_number}}</td>
+                            <td><span class="status active">ABSENT</span></td>
+                        </tr>
+                        
+                        
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
