@@ -27,7 +27,7 @@
                 </form>
             </nav>
         </header>
-
+{% block content %}
         <div class="dashboard-content">
             <!-- Dashboard specific content here -->
             {% comment %} <div class="stats-card">
@@ -129,6 +129,8 @@
   </div>
 
   </div>
+
+  {% endblock %}
      
 </body>
 </html>
