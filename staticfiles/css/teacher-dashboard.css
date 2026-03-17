@@ -437,6 +437,7 @@ a { text-decoration: none; color: inherit; }
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            
         }
 
         .btn-primary {
@@ -460,7 +461,14 @@ a { text-decoration: none; color: inherit; }
             }
             
             .action-buttons {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
+                
+            }
+            .action-card{
+            border-radius: 10px;
+            padding: 16px;
+            
+
             }
 
             .header-content {
@@ -470,6 +478,7 @@ a { text-decoration: none; color: inherit; }
             .date-class-info {
                 text-align: center;
             }
+            
         }
 
         .pulse {

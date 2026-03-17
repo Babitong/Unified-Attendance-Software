@@ -1,0 +1,103 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* Page background */
+body {
+  background: linear-gradient(135deg, #0f4c81, #1e90ff);
+  min-height: 100vh;
+}
+
+/* Center wrapper */
+.checkin-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+/* Card */
+.checkin-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 420px;
+  padding: 30px 25px;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.6s ease;
+}
+
+/* Success icon */
+.icon {
+  font-size: 48px;
+  margin-bottom: 15px;
+}
+
+/* Heading */
+.checkin-card h2 {
+  font-size: 22px;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+/* Message */
+.message {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+/* Button */
+.btn {
+  display: inline-block;
+  text-decoration: none;
+  background: #1e90ff;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  transition:
+    background 0.3s,
+    transform 0.2s;
+}
+
+.btn:hover {
+  background: #0f4c81;
+  transform: translateY(-2px);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Desktop tweaks */
+@media (min-width: 768px) {
+  .checkin-card {
+    padding: 40px;
+  }
+
+  .checkin-card h2 {
+    font-size: 24px;
+    /* font-size: 4rem; */
+  }
+
+  .message {
+    font-size: 16px;
+    /* font-size: 2rem; */
+  }
+}

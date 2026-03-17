@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.utils import timezone
+from django.utils.timezone import now
 from django.http import HttpResponseForbidden, HttpResponse
 from .models import AttendanceRecord 
 from users import models
-from datetime import timedelta, datetime
+# from datetime import timedelta, datetime
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from utils import generate_attendance_chart 
@@ -42,28 +43,44 @@ def export_pdf(request):
     pisa.CreatePDF(html, dest=response)
     return response
 
+# teacher pdf view
+
+def teacher_pdf(request):
+    view_mode = request.GET.get("view")
+    
+    if view_mode == "all":
+        user = request.user
+        # logs = AttendanceRecord.objects.all()
+        logs = AttendanceRecord.objects.filter(user=user)
+        title = "All Attendance Logs"
+    else:
+        today = timezone.now()
+        logs = AttendanceRecord.objects.filter(scanned_at__date=today)
+        title = f"Attendance Logs - {today.strftime('%B %d, %Y')}"
+    
+    context = {
+        "logs": logs,
+        "title": title,
+    }
+    
+    template = get_template("attendance/teacher-pdf.html")
+    html = template.render(context)
+    
+    response = HttpResponse(content_type="application/pdf")
+    response['Content-Disposition'] = 'attachment; filename="attendance_logs.pdf"'
+    pisa.CreatePDF(html, dest=response)
+    return response
 
 
 # Redirect after login based on user type
-# @login_required
 def register_view(request):
-
-
     # SETTING A DEFAULT DEPARTMENT FOR THE ADMIN
     if Department.objects.count() == 0:
 
         Department.objects.create(name="management")
     
     departments =  Department.objects.all()
-     # Check if an admin already exists
-    # admin_exists = CustomUser.objects.filter(user_type='admin').exists()
-
-    # # Dynamically set the user type based on the existence of an admin
-    # if admin_exists:
-    #     user_type_choices = [('teacher', 'Teacher'), ('secretary', 'Secretary')]
-    # else:
-    #     user_type_choices = [('admin', 'Admin'), ('teacher', 'Teacher'), ('secretary', 'Secretary')]
-
+    
     # Check if an admin already exists
     admin_exists = CustomUser.objects.filter(user_type='admin').exists()
 
@@ -136,7 +153,7 @@ def post_login_redirect(request):
 
 
 
-# Check-in View
+# Check-in Attendance View
 
 @login_required
 def check_in_view(request):
@@ -150,8 +167,9 @@ def check_in_view(request):
 
         if record.checked_out_at:
             return redirect("scan_already_checked_out")
-        # elif time_elapsed >= 4 * 3600: # 4 hours in seconds originally
-        elif time_elapsed >= 5 * 60:
+        
+        elif time_elapsed >= 4 * 3600: # 4 hours in seconds originally
+        # elif time_elapsed >= 5 * 60:
             record.checked_out_at = now
             record.save()
             return redirect("scan_checked_out")
@@ -186,19 +204,55 @@ def already_checked_out_page(request):
     return render(request, "attendance/scan_already_checked_out.html")
 
 
+# secretary's dashboard view
+
 @login_required
 def daily_logs(request):
     if request.user.user_type.lower() != "secretary":
         return HttpResponseForbidden("Access denied.")
     teachers = CustomUser.objects.filter(user_type ='teacher')
+    # today = now().date()
+    today = timezone.now()
+    status_list  = []
+    for teacher in teachers:
+        records_today = AttendanceRecord.objects.filter( user=teacher, date=today)
+        if records_today.filter(status='chech_out_at').exists():
+            status = 'Checked Out'
+        elif records_today.filter(status='scanned_at').exists():
+            status = 'Checked In'
+        else:
+            status = 'Nothing'
+        status_list.append({
+            'name': teacher.get_full_name,
+            'department': teacher.department,
+            'email': teacher.email,
+            'phone_number': teacher.phone_number,
+            'status':status,
+        })
+    # present check
+    
+    present_check_id = AttendanceRecord.objects.filter(date=today).values_list('user_id', flat=True)
+    present_count = teachers.filter(id__in=present_check_id).count()
+
+    # absent check
+    absent_count = teachers.exclude(id__in=present_check_id).count()
+
     # Total number of teachers
     teacher_count = CustomUser.objects.filter(user_type='teacher').count()
+    
     return render(request, "attendance/daily_logs.html", {
         
         "teacher_count": teacher_count,
         "teachers": teachers,
+        "present_count": present_count,
+        "absent_count": absent_count,
+        "status_list": status_list,
+
 
         }) 
+
+
+# teachers dashboard view
         
     
 @login_required
@@ -214,13 +268,15 @@ def teacher_home_view(request):
         
 
     else:
-        today = timezone.localdate()
-        records = AttendanceRecord.objects.filter(date=today).select_related('user')
+        user = request.user
+         # get today's date
+        today = timezone.now()
+        records = AttendanceRecord.objects.filter(user=user,date=today).order_by('scanned_at')
         today_label = today.strftime("%A, %d %B %Y")
         
         
     return render(request, "attendance/teacher_home.html", {
-            "records": records,
+        "records": records,
         "today": today_label,
         "show_all": show_all,
         
@@ -240,7 +296,7 @@ def dashboard_view(request):
         today_label = "All Attendance Records"
 
     else:
-        today = timezone.localdate()
+        today = timezone.now()
         records = AttendanceRecord.objects.filter(date=today).select_related('user')
         today_label = today.strftime("%A, %d %B %Y")
 
@@ -259,7 +315,7 @@ def dashboard_view(request):
 
 
     return render(request, "dashboard.html", {
-            "records": records,
+        "records": records,
         "today": today_label,
         "show_all": show_all,
         "chart_base64": chart_base64,

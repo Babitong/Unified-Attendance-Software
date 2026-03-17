@@ -6,11 +6,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unified Attendance System</title>
+    <title>Unified Attendance Software</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" href="{% static 'css/auth.css' %}">
     <link rel="stylesheet" href="{% static 'css/scan.css' %}">
-    
     <link rel="stylesheet" href="{% static 'css/daily-logs.css' %} ">
     
 </head>
@@ -29,11 +29,12 @@
                     <form action="{% url 'logout' %}" method="post">
                         {% csrf_token %}
                         <button type="submit" class="auth-btn logout-btn">Sign Out</button>
+                        
                     </form>
                 {% else %}
-                    <a href="#feature" class="auth-btn  login-btn ">Features</a>
-                     <a href="#about" class="auth-btn  login-btn">About us</a>
-                    <a href="{% url 'login' %}" class="auth-btn logout-btn">Sign In</a> 
+                    <a href="#feature" class="auth-btn  ">Features</a>
+                     <a href="#about" class="auth-btn ">About us</a>
+                    <a href="{% url 'login' %}" class="auth-btn login-btn">Sign In</a> 
                 {% endif %}
 
          </div>
@@ -52,29 +53,33 @@
     {% block content%}
     <main>
 
-        <section class="hero-section">
-
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>Track Attendance Smarter - Built for Schools, Ready for Scale</h1>
-                    <p>
-                    QR-based check-ins, role-based dashboards, PDF/Excel exports, and real-time insights - all in one unified system.
-                    </p>
-                    <div class="cta-buttons">
-                        
-                        <a href="{% url 'register' %}" class="demo">Try Demo</a>
+         <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                Track Attendance Smarter - Built for Schools, Ready for Scale
+            </h1>
+            <p class="hero-subtitle">QR-based check-ins, role-based dashboards, PDF/Excel exports, and real-time insights - all in one unified system.</p>
+            <div class="hero-buttons">
                     
-                
-                        <a href="mailto:rexbabitong@gmail.com" class="call">Book a Call</a>
-                    </div>
-                </div>
-
-                
+                <a href="{% url 'register' %} " class="btn btn-primary">Get Started</a>
+                <a href="#services" class="btn btn-secondary">Get a Quote</a>
             </div>
-                
-        </section >
+        </div>
+        <div class="hero-image">
+            <div class="clean-icon"> 
+                <i class="fas fa-stopwatch"></i>
+            </div>
+            <div class="clean-icon">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="clean-icon">
+                <i class="fas fa-map-marker-alt"></i>
+            </div>
+        </div>
+    </section>
 
-        <section class="about-uas" id="about">
+<section class="about-uas" id="about">
             <div class="about-image">
                 <img src="{% static 'assets/attendance-management-features.webp' %}" alt="{{ imageAlt }}" /> 
             </div> 
@@ -129,19 +134,73 @@
                 <p>Join us today and experience the future of attendance tracking.</p>
                 <div class="cta-container">
                      <div class="cta-buttons">
-                    <a href="{% url 'register' %}" class="demo">Try Demo</a>
-                    <a href="mailto:rexbabitong@gmail.com" class="call">Book a Call</a>
+                    <a href="{% url 'register' %}" class="btn btn-primary">Try Demo</a>
+                    <a href="mailto:rexbabitong@gmail.com" class="btn btn-secondary">Book a Call</a>
                     </div>
                 </div>
         </section>
     </main>
      {% endblock %}
 
-    <footer>
-        
-        <p>&copy; {{ now.year }} Unified Attendance Software</p>
-    <p><a href="mailto:rexbabitong@gmail.com">Contact Support</a></p>
+
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <i class="fas fa-soap"></i>
+                        <span>Unified Attendance Software</span>
+                    </div>
+                    <p>
+                        A smart, role-aware platform designed to help schools and institutions track attendance 
+                        with speed, security, and clarity. 
+                        
+                    </p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="{% url 'base' %}">Home</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#testimonials">Testimonials</a></li>
+                        <li><a href="#contact"><p><a href="mailto:rexbabitong@gmail.com">Contact Support</a></p></a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#services">Solo Attendance Tracking</a></li>
+                        <li><a href="#services">Small Schools Attendance Tracking</a></li>
+                        <li><a href="#services">institutional Attendance Tracking</a></li>
+                        
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Newsletter</h4>
+                    <p>Subscribe to our newsletter for Attendance tracking  tips and special offers.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your Email">
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Unified Attendance Software. All rights reserved.</p>
+            </div>
+        </div>
     </footer>
+
 
     <script>
               // Sidebar Toggle

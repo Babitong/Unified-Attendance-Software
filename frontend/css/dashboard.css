@@ -5,19 +5,23 @@ body {
     background-color: #f8f9fa;
 }
 
-.dashboard-container {
-    max-width: 1200px;
-    margin: 0 auto;
+
+.dashboard-content {
+    margin: 0 ;
     padding: 2rem;
 }
 
 .dashboard-header {
+    max-width: 1200px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
+    margin: 2rem auto;
+    /* padding-bottom: 1rem; */
     border-bottom: 1px solid #eee;
+    box-shadow:2px 2px 2px 2px rgba(0,0,0,0.3);
+    padding: 1rem;
+    border-radius: 6px;
 }
 
 .greeting h2 {

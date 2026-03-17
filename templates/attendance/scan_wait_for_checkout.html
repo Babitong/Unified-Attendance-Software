@@ -1,8 +1,27 @@
-{% extends "base.html" %}
-{% block content %}
-<h2>Not yet time</h2>
-  <p>You will be eligible to checkout after 4 hours. keep going!</p>
-  <h3> {{user.get_full_name|default:user.username}}  </h3>
-  <a href="{% url 'teacher_home' %}">Return to  dashboard</a>
-  
-{% endblock %}
+{% load static %}
+
+<html>
+  <head>
+    <title>Wait</title>
+    <link rel="stylesheet" href="{% static 'css/checked.css' %} " />
+  </head>
+  <body>
+    {% block content %}
+    <div class="checkin-wrapper">
+      <div class="checkin-card">
+        <div class="icon">🤦‍♂️</div>
+
+        <h2>Not yet time, {{ user.get_full_name|default:user.username }}</h2>
+
+        <p class="message">
+          You will be eligible to checkout after 4 hours. keep going!
+        </p>
+
+        <a href="{% url 'teacher_home' %}" class="btn">
+          Return to your dashboard
+        </a>
+      </div>
+    </div>
+    {% endblock %}
+  </body>
+</html>

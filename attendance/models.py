@@ -10,6 +10,7 @@ class AttendanceRecord(models.Model):
     scanned_at = models.DateTimeField(auto_now_add=True)  # Check-in time
     checked_out_at = models.DateTimeField(null=True, blank=True)  # Check-out time
     date =models.DateField(default=timezone.now())
+    status =models.CharField(max_length=20, choices=[('scanned_at','scanned_at'),('check_out_at','check_out_at')])
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
 

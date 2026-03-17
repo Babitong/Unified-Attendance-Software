@@ -8,7 +8,8 @@ from attendance.models import AttendanceRecord
 
 @admin.register(AttendanceRecord)
 class AttendanceRecordAdmin(admin.ModelAdmin):
-    list_display = ('date','user', 'scanned_at', 'checked_out_at','latitude','longitude')
+    # list_display = ('date','user', 'scanned_at', 'checked_out_at','latitude','longitude')
+    list_display = ('date','user', 'scanned_at', 'checked_out_at')
     list_filter = ('user__department', 'scanned_at','date')
     search_fields = ('user__username',)
     readonly_fields = ('user', 'scanned_at', 'checked_out_at','latitude','longitude')

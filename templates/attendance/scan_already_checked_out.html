@@ -1,6 +1,25 @@
-{% extends "base.html" %}
-{% block content%}
-<h2>Already done for the day </h2>
-<a href="{% url 'teacher_home' %}">Go to your dashboard</a> 
-{% endblock %}
+{% load static %}
 
+<html>
+  <head>
+    <title>Already|Checked-Out</title>
+    <link rel="stylesheet" href="{% static 'css/checked.css' %} " />
+  </head>
+  <body>
+    {% block content %}
+    <div class="checkin-wrapper">
+      <div class="checkin-card">
+        <div class="icon">🎉🎉🎉🎉🎉</div>
+
+        <h2>Bravo, {{ user.get_full_name|default:user.username }}</h2>
+
+        <p class="message">Already done for the day</p>
+
+        <a href="{% url 'teacher_home' %}" class="btn">
+          Return to your dashboard
+        </a>
+      </div>
+    </div>
+    {% endblock %}
+  </body>
+</html>

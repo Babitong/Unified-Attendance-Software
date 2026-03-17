@@ -1,61 +1,61 @@
-{% comment %} {% extends 'base.html'%} {% endcomment %}
-{% load static %}
-<!DOCTYPE html>
+{% comment %} {% extends 'base.html'%} {% endcomment %} {% load static %}
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
 
     <title>Login - Attendance System</title>
-    
-</head>
-<body>
-
+  </head>
+  <body>
     {%block content%}
     <div class="login-container">
-        
-        <form method="post" action="{% url 'login' %}" class="login-form">
-            <p>
-            <a href="{% url 'base' %}" class=""><img src="{% static 'assets/logo.jpeg' %}" alt="{{ imageAlt }}" /> </a>
-            </p>
-            <div class="login-form-text">
-                <h1>Hella, Welcome Back</h1>
-                <p>Hey, Welcome back to your special place<p>
+      <form method="post" action="{% url 'login' %}" class="login-form">
+        <p>
+            <div >
+                <a href="{% url 'base' %}" class=""
+            ><img src="{% static 'assets/logo.jpeg' %}" alt="{{ imageAlt }}" />
+          </a>
             </div>
-            {% csrf_token %}
-            {% if form.errors %}
+          
+        </p>
+        <div class="login-form-text">
+          <h1>Hella, Welcome Back</h1>
+          <p>Hey, Welcome back to your special place</p>
+          <p></p>
+        </div>
+        {% csrf_token %} {% if form.errors %}
         <p class="error-message">Invalid username or password</p>
         {% endif %}
-            <div class="form-group">
-                <label for="id_username">Username</label>
-                <input type="text" name="username" id="id_username" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="id_password">Password</label>
-                <input type="password" name="password" id="id_password" required>
-            </div>
-            
-            <div class="form-group">
-                <button type="submit" class="login-btn-auth ">Sign In </button>
-
-            </div>
-            <p >
-               Don't have an account? create account <a href="{% url 'register' %}"> Sign Up</a>
-            </p>
-        </form>
-        <div class="login-title">
-            {% comment %} <h2 >Welcome Back</h2> {% endcomment %}
-            <img src="{% static 'assets/hero2.webp' %}" alt="{{ imageAlt }}" /> 
-
+        <div class="form-group">
+          <label for="id_username">Username</label>
+          <input type="text" name="username" id="id_username" required />
         </div>
-        
-        
 
-        
+        <div class="form-group">
+          <label for="id_password">Password</label>
+          <input type="password" name="password" id="id_password" required />
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="login-btn-auth">Sign In</button>
+        </div>
+        <p>
+          Don't have an account? create account
+          <a href="{% url 'register' %}"> Sign Up</a>
+        </p>
+      </form>
+      <div class="login-title" >
+       
+        {% comment %} <h2>Welcome Back</h2> {% endcomment %}
+       
+        <div class="about-us about-image">
+            <img src="{% static 'assets/hero2.webp' %}" alt="{{ imageAlt }}" />
+        </div>
+      </div>
     </div>
     {% endblock %}
-</body>
+  </body>
 </html>

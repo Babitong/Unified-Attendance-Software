@@ -1,7 +1,25 @@
-{% extends 'base.html' %}
+{% load static %}
 
-{% block content %} 
-<h3>✅ Welcome, {{user.get_full_name|default:user.username}} You’ve checked out  successfully.</h3>
-<a href="{% url 'teacher_home' %}">Return to  dashboard</a> 
+<html>
+  <head>
+    <title>Checked-In</title>
+    <link rel="stylesheet" href="{% static 'css/checked.css' %} " />
+  </head>
+  <body>
+    {% block content %}
+    <div class="checkin-wrapper">
+      <div class="checkin-card">
+        <div class="icon">✅</div>
 
-{% endblock %}
+        <h2>Thank You, {{ user.get_full_name|default:user.username }}</h2>
+
+        <p class="message">You've checked out successfully.</p>
+
+        <a href="{% url 'teacher_home' %}" class="btn">
+          Return to your dashboard
+        </a>
+      </div>
+    </div>
+    {% endblock %}
+  </body>
+</html>

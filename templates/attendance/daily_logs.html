@@ -1,194 +1,176 @@
-
-{% extends 'base.html'%}
-{% load static %}
-
-{% block content %}
-<!DOCTYPE html>
+{% extends 'base.html'%} {% load static %} {% block content %}
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Secretary Dashboard</title>
-  <link rel="stylesheet" href="{% static 'css/teacher-dashboard.css' %} ">
-  <link rel="stylesheet" href="{% static 'css/daily-logs.css' %} ">
-</head>
-<body class="body">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secretary Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/teacher-dashboard.css' %} " />
+    <link rel="stylesheet" href="{% static 'css/daily-logs.css' %} " />
+  </head>
+  <body class="body">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      {% comment %}
+      <h2>Unified Attendance System</h2>
+      {% endcomment %}
+      <ul>
+        <li>
+          <a href="{% url 'dashboard' %}" class="logout-btn"
+            >View Attendance Logs</a
+          >
+        </li>
+        <li><a href="{% url 'pdf' %}">Export Attendance</a></li>
+        <li><a href="{% url 'qrcode_download' %}">Download QR Code</a></li>
+        <li><a href="#">Forget Password Report</a></li>
+        <hr />
+        <li><a href="#">Settings</a></li>
+        <li><a href="mailto:rexbabitong@gmail.com">Help</a></li>
+      </ul>
+    </div>
 
-  <!-- Sidebar -->
-  <div class="sidebar" id="sidebar">
-    {% comment %} <h2>Unified Attendance System</h2> {% endcomment %}
-    <ul>
-      <li><a href="{% url 'dashboard' %}" class=" logout-btn">View Attendance Logs</a></li>
-      <li><a href="{% url 'pdf' %}">Export Attendance</a></li>
-      <li><a href="{% url 'qrcode_download' %}">Download QR Code</a></li>
-      <li><a href="#">Forget Password Report</a></li>
-      <hr>
-      <li><a href="#">Settings</a></li>
-      <li><a href="mailto:rexbabitong@gmail.com">Help</a></li>
-      
-    </ul>
-  </div>
+    <!-- Main Content -->
 
-  <!-- Main Content -->
-  
-  <div class="main">
-    <div class="topbar">
-      
-      <button class="btn" onclick="toggleSidebar()">☰</button>
-    </div> 
+    <div id="main">
+      <div class="topbar">
+        <button class="btn" onclick="toggleSidebar()">
+          <div class="span-infor"><span>Menu</span></div>
+        </button>
+      </div>
 
-     <div class="header">
-            <h1>{{user.get_full_name}} || {{user.user_type}}</h1>
-            <p>{{user.department}}</p>
+      <div class="header">
+        <h1>{{user.get_full_name}} || {{user.user_type}}</h1>
+        <p>{{user.department}}</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value pulse">{{teacher_count}}</div>
+          <div class="stat-label">Total Users</div>
+          {% comment %}
+          <div class="stat-change positive">↗ +12.5%</div>
+          {% endcomment %}
         </div>
+        <div class="stat-card-present stat-card">
+          <div class="stat-value pulse">{{present_count}}</div>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value pulse">{{teacher_count}}</div>
-                <div class="stat-label">Total Users</div>
-                <div class="stat-change positive">↗ +12.5%</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value pulse">0</div>
-                <div class="stat-label">PRESENT TODAY</div>
-                <div class="stat-change positive">↗ +8.2%</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value pulse">2</div>
-                <div class="stat-label">ABSENT</div>
-                <div class="stat-change negative">↘ -3.1%</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value pulse">96.8%</div>
-                <div class="stat-label">ATTENDANCE RATE</div>
-                <div class="stat-change positive">↗ +0.5%</div>
-            </div>
+          <div class="stat-label">Present Today</div>
+          {% comment %}
+          <div class="stat-change positive">↗ +8.2%</div>
+          {% endcomment %}
         </div>
+        <div class="stat-card-absent stat-card">
+          <div class="stat-value pulse">{{absent_count}}</div>
+          <div class="stat-label">ABSENT</div>
+          {% comment %}
+          <div class="stat-change negative">↘ -3.1%</div>
+          {% endcomment %}
+        </div>
+        <div class="stat-card">
+          <div class="stat-value pulse">96.8%</div>
+          <div class="stat-label">ATTENDANCE RATE</div>
+          {% comment %}
+          <div class="stat-change positive">↗ +0.5%</div>
+          {% endcomment %}
+        </div>
+      </div>
 
-    {% comment %} NEW FEATURE  {% endcomment %}
-    <div class="charts-grid">
-            <div class="chart-container">
-                <div class="chart-title">WEEKLY ATTENDANCE TREND</div>
-                <div class="chart">
-                    <div class="bar" style="height: 60%;" data-value="2.4K"></div>
-                    <div class="bar" style="height: 80%;" data-value="3.2K"></div>
-                    <div class="bar" style="height: 45%;" data-value="1.8K"></div>
-                    <div class="bar" style="height: 90%;" data-value="3.6K"></div>
-                    <div class="bar" style="height: 75%;" data-value="3.0K"></div>
-                    <div class="bar" style="height: 85%;" data-value="3.4K"></div>
-                    <div class="bar" style="height: 70%;" data-value="2.8K"></div>
-                </div>
-            </div>
-            <div class="chart-container">
-                <div class="chart-title">OVERALL TREND</div>
-                <div class="donut-chart">
-                    <div class="donut"></div>
-                    <div class="donut-center">
-                        <div class="donut-value">18.2K</div>
-                        <div class="donut-label">Total Visits</div>
-                    </div>
-                </div>
-            </div>
+      {% comment %} NEW FEATURE {% endcomment %}
+      <div class="charts-grid">
+        <div class="chart-container">
+          <div class="chart-title">WEEKLY ATTENDANCE TREND</div>
+          <div class="chart">
+            <div class="bar" style="height: 60%" data-value="2.4K"></div>
+            <div class="bar" style="height: 80%" data-value="3.2K"></div>
+            <div class="bar" style="height: 45%" data-value="1.8K"></div>
+            <div class="bar" style="height: 90%" data-value="3.6K"></div>
+            <div class="bar" style="height: 75%" data-value="3.0K"></div>
+            <div class="bar" style="height: 85%" data-value="3.4K"></div>
+            <div class="bar" style="height: 70%" data-value="2.8K"></div>
+          </div>
         </div>
+        <div class="chart-container">
+          <div class="chart-title">OVERALL TREND</div>
+          <div class="donut-chart">
+            <div class="donut"></div>
+            <div class="donut-center">
+              <div class="donut-value">18.2K</div>
+              <div class="donut-label">Total Visits</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        <div class="table-container">
-            <div class="chart-title">Recent Activity</div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>User Name</th>
-                        <th>Department</th>
-                        <th>Email</th>
-                        <th>Phone number</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for teacher in teachers %}
-                        <tr>
-                            <td>{{ teacher.get_full_name}}</td>
-                            <td>{{ teacher.department}}</td>
-                            <td>{{teacher.email}}</td>
-                            <td>{{teacher.phone_number}}</td>
-                            <td><span class="status active">ABSENT</span></td>
-                        </tr>
-                        
-                        
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    <script>
-              // Sidebar Toggle
+      <div class="attendance-table-wrapper">
+        <div class="chart-title">Recent Activity</div>
+        <table class="attendance-table">
+          <thead>
+            <tr>
+              <th>Full Name</th>
+              <th>Department</th>
+              <th>Email</th>
+              <th>Phone number</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for entry in status_list %}
+            <tr>
+              <td>{{ entry.name}}</td>
+              <td>{{ entry.department}}</td>
+              <td>{{entry.email}}</td>
+              <td>{{entry.phone_number}}</td>
+              <td>
+                {% if entry.status == 'Checked In'%}
+                <span class="status active">{{entry.status}}</span>
+                {% elif entry.status == 'Checked Out'%}
+                <span class="status inactive">{{entry.status}}</span>
+                {% else %}
+                <span class="status pending">{{entry.status}}</span>
+                {% endif %}
+              </td>
+            </tr>
+
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <script>
+        // Sidebar Toggle
         function toggleSidebar() {
           document.getElementById("sidebar").classList.toggle("active");
         }
 
-        // Timer Logic
-        let timer, seconds = 0;
+        // Add some interactivity
+        document.addEventListener("DOMContentLoaded", function () {
+          // Animate numbers on load
+          const statValues = document.querySelectorAll(".stat-value");
+          statValues.forEach((stat) => {
+            const finalValue = stat.textContent;
+            stat.textContent = "0";
 
-        function updateTime() {
-          let hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
-          let mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
-          let secs = String(seconds % 60).padStart(2, '0');
-          document.getElementById("time").textContent = `${hrs}:${mins}:${secs}`;
-        }
+            setTimeout(() => {
+              stat.textContent = finalValue;
+              stat.style.transition = "all 1s ease";
+            }, 500);
+          });
 
-        function startTimer() {
-          if (!timer) {
-            timer = setInterval(() => {
-              seconds++;
-              updateTime();
-            }, 1000);
-          }
-        }
-
-        function stopTimer() {
-          clearInterval(timer);
-          timer = null;
-        }
-
-        function resetTimer() {
-          stopTimer();
-          seconds = 0;
-          updateTime();
-        }
-
-
-         // Add some interactivity
-        document.addEventListener('DOMContentLoaded', function() {
-            // Animate numbers on load
-            const statValues = document.querySelectorAll('.stat-value');
-            statValues.forEach(stat => {
-                const finalValue = stat.textContent;
-                stat.textContent = '0';
-                
-                setTimeout(() => {
-                    stat.textContent = finalValue;
-                    stat.style.transition = 'all 1s ease';
-                }, 500);
+          // Add click effects to cards
+          const cards = document.querySelectorAll(
+            ".stat-card, .chart-container, .table-container",
+          );
+          cards.forEach((card) => {
+            card.addEventListener("click", function () {
+              this.style.transform = "scale(0.98)";
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 150);
             });
-
-            // Add click effects to cards
-            const cards = document.querySelectorAll('.stat-card, .chart-container, .table-container');
-            cards.forEach(card => {
-                card.addEventListener('click', function() {
-                    this.style.transform = 'scale(0.98)';
-                    setTimeout(() => {
-                        this.style.transform = '';
-                    }, 150);
-                });
-            });
+          });
         });
+      </script>
 
-
-
-    </script>
-    
-{% endblock %}
-
- 
-
-
-
-
+      {% endblock %}
+    </div>
+  </body>
+</html>
