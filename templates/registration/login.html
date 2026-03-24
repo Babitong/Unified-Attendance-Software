@@ -1,4 +1,4 @@
-{% comment %} {% extends 'base.html'%} {% endcomment %} {% load static %}
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -13,18 +13,9 @@
     {%block content%}
     <div class="login-container">
       <form method="post" action="{% url 'login' %}" class="login-form">
-        <p>
-            <div >
-                <a href="{% url 'base' %}" class=""
-            ><img src="{% static 'assets/logo.jpeg' %}" alt="{{ imageAlt }}" />
-          </a>
-            </div>
-          
-        </p>
         <div class="login-form-text">
-          <h1>Hella, Welcome Back</h1>
+          <h1>Welcome Back</h1>
           <p>Hey, Welcome back to your special place</p>
-          <p></p>
         </div>
         {% csrf_token %} {% if form.errors %}
         <p class="error-message">Invalid username or password</p>
@@ -40,21 +31,13 @@
         </div>
 
         <div class="form-group">
-          <button type="submit" class="login-btn-auth">Sign In</button>
+          <button type="submit" class="login-btn-auth">Login</button>
         </div>
         <p>
           Don't have an account? create account
-          <a href="{% url 'register' %}"> Sign Up</a>
+          <a href="{% url 'register' %}"> Create Account</a>
         </p>
       </form>
-      <div class="login-title" >
-       
-        {% comment %} <h2>Welcome Back</h2> {% endcomment %}
-       
-        <div class="about-us about-image">
-            <img src="{% static 'assets/hero2.webp' %}" alt="{{ imageAlt }}" />
-        </div>
-      </div>
     </div>
     {% endblock %}
   </body>

@@ -143,7 +143,7 @@ def register_view(request):
 
 @login_required
 def post_login_redirect(request):
-    if request.user.user_type == "teacher":
+    if request.user.user_type == "employee":
         return redirect("teacher_home")
     elif request.user.user_type == "secretary":
         return redirect("daily_logs")
@@ -210,7 +210,7 @@ def already_checked_out_page(request):
 def daily_logs(request):
     if request.user.user_type.lower() != "secretary":
         return HttpResponseForbidden("Access denied.")
-    teachers = CustomUser.objects.filter(user_type ='teacher')
+    teachers = CustomUser.objects.filter(user_type ='employee')
     # today = now().date()
     today = timezone.now()
     status_list  = []
@@ -238,12 +238,12 @@ def daily_logs(request):
     absent_count = teachers.exclude(id__in=present_check_id).count()
 
     # Total number of teachers
-    teacher_count = CustomUser.objects.filter(user_type='teacher').count()
+    teacher_count = CustomUser.objects.filter(user_type='employee').count()
     
     return render(request, "attendance/daily_logs.html", {
         
         "teacher_count": teacher_count,
-        "teachers": teachers,
+        "employee": teachers,
         "present_count": present_count,
         "absent_count": absent_count,
         "status_list": status_list,

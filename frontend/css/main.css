@@ -35,9 +35,10 @@ h6 {
 }
 
 header {
-  background-color: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  color: var(--dark);
+  background: linear-gradient(to right, #1e3c72, #2a5298);
+  /* background-color: rgba(255, 255, 255, 0.95); */
+  /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
+  color: var(--white);
   padding: 1rem 2rem;
   position: sticky;
   top: 0;
@@ -75,7 +76,7 @@ header {
 /* LOGO AND LOGIN SECTION */
 
 .logo {
-  color: #3a56d4;
+  color: #ffffff;
   display: flex;
   align-items: center;
 
@@ -95,7 +96,7 @@ header {
 
 .auth-btn {
   padding: 0.5rem 2rem;
-  color: var(--dark);
+  color: var(--white);
   border-radius: 4px;
   text-decoration: none;
   font-weight: 500;
@@ -117,13 +118,13 @@ header {
   transform: translateY(-2px);
   box-shadow: 0 4p 8px rgba(0, 0, 0, 0.1);
   opacity: 0.9;
-  background-color: #00b88c;
+  background-color: #1e4bb2;
 }
 
 .logout-btn {
-  background: var(--primary);
-  color: var(--white);
-  border: 1px solid #4361ee;
+  background: var(--white);
+  color: var(--primary-dark);
+  border: none;
   padding: 0.5rem auto;
   border-radius: 4px;
   cursor: pointer;
@@ -131,7 +132,6 @@ header {
 
 main {
   flex: 1;
-  padding: 2rem;
 }
 
 /* HERO SECTION */
@@ -140,26 +140,28 @@ main {
   display: flex;
   align-items: center;
   /* min-height: 100vh; */
-  padding: 80px;
-  background: linear-gradient(135deg, var(--light) 0%, #ffffff 100%);
+  padding: 80px 8%;
+  background: linear-gradient(to right, #1e3c72, #2a5298);
+  color: white;
 }
 
 .hero-content {
   flex: 1;
-  padding-right: 50px;
+  /* padding-right: 50px; */
+  max-width: 600px;
 }
 
 .hero-title {
   font-size: 3.5rem;
   margin-bottom: 20px;
-  color: var(--primary);
+  /* color: var(--primary); */
   animation: fadeInUp 1s ease;
 }
 
 .hero-subtitle {
   font-size: 1.2rem;
   margin-bottom: 30px;
-  color: var(--gray);
+  /* color: var(--gray); */
   animation: fadeInUp 1s ease 0.2s forwards;
   opacity: 2;
 }
@@ -178,36 +180,14 @@ main {
   align-items: center;
   position: relative;
 }
-
-.clean-icon {
-  width: 120px;
-  height: 120px;
-  background-color: white;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  margin: 0 15px;
-  font-size: 3rem;
-  color: var(--primary);
-  animation: float 3s ease-in-out infinite;
-}
-
-.clean-icon:nth-child(2) {
-  animation-delay: 0.5s;
-  color: var(--accent);
-}
-
-.clean-icon:nth-child(3) {
-  animation-delay: 1s;
-  color: var(--secondary);
+.hero-image img {
+  width: 100%;
 }
 
 .btn {
   display: inline-block;
-  padding: 12px 30px;
-  border-radius: 50px;
+  padding: 12px 10%;
+  border-radius: 10px;
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s ease;
@@ -217,27 +197,29 @@ main {
 }
 
 .btn-primary {
-  background-color: var(--primary);
-  color: white;
+  background-color: #ffffff;
+  color: #1e4bb2;
 }
 
 .btn-primary:hover {
   background-color: #1e4bb2;
+  color: #ffffff;
   transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(43, 89, 195, 0.3);
+  /* box-shadow: 0 10px 20px rgba(43, 89, 195, 0.3); */
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5);
 }
 
 .btn-secondary {
-  background-color: transparent;
-  color: var(--primary);
-  border: 2px solid var(--primary);
+  background-color: #1e4bb2;
+  color: var(--white);
 }
 
 .btn-secondary:hover {
   background-color: var(--primary);
   color: white;
   transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(43, 89, 195, 0.3);
+  /* box-shadow: 0 10px 20px rgba(43, 89, 195, 0.3); */
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5);
 }
 
 section {
@@ -298,7 +280,8 @@ section {
   .hero {
     flex-direction: column;
     text-align: center;
-    padding: 120px 0 60px;
+    /* padding: 120px 0 60px; */
+    padding: 100px 10px;
   }
 
   .hero-content {
@@ -318,8 +301,8 @@ section {
   color: #1c1f3a;
   padding: 4rem 2rem;
   text-align: left;
-  margin-top: 6rem;
-  display: grid;
+  margin: 3rem auto;
+  display: block;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
   align-items: center;
@@ -327,7 +310,7 @@ section {
 }
 
 .about-content {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -340,9 +323,10 @@ section {
 
 .about-uas h3 {
   font-size: 1.6rem;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 20px;
   color: #00b88c;
+  text-align: center;
 }
 
 .about-uas p {
@@ -363,20 +347,25 @@ section {
   padding-left: 1.5rem;
 }
 
-.about-uas li::before {
-  content: "✔";
-  position: absolute;
-  left: 0;
-  color: #00b88c;
-  font-weight: bold;
+.about-column {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 50px;
+  gap: 1rem;
 }
-.about-uas .about-image {
-  width: 100%;
-  max-width: 800px;
-  margin: 2rem auto;
-  display: block;
-  animation: zoomPulse 6s infinite ease-in-out;
-  transform-origin: center;
+
+.about-column .about-column-item {
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 10px;
+}
+.about-column .about-column-item:hover {
+  background: #b1d1f5;
+  transition: ease-in 2s;
 }
 
 @keyframes zoomPulse {
@@ -454,19 +443,19 @@ section {
 /* FEATURES SECTION */
 
 .features {
-  background: linear-gradient(to bottom right, #0a0f2c, #1c1f3a);
+  /* background: linear-gradient(to bottom right, #0a0f2c, #1c1f3a); */
   padding: 4rem;
-  color: #ffffff;
+  color: #000;
   text-align: center;
 
   max-width: 1790px;
-  margin: 1rem auto;
+  margin: 2rem auto;
 }
 
 .features h2 {
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   margin-bottom: 3rem;
-  font-weight: 700;
+  color: #00b88c;
 }
 
 .feature-grid {
@@ -476,7 +465,7 @@ section {
 }
 
 .feature-card {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: white;
   padding: 2rem;
   border-radius: 12px;
   transition:
@@ -486,7 +475,8 @@ section {
 
 .feature-card:hover {
   transform: translateY(-5px);
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: whitesmoke;
+  box-shadow: 4px 4px 0 rgba(100, 100, 100, 0.3);
 }
 
 .feature-card img {
@@ -496,14 +486,13 @@ section {
 }
 
 .feature-card h3 {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   margin-bottom: 0.5rem;
-  font-weight: 600;
 }
 
 .feature-card p {
   font-size: 1rem;
-  color: #c0c0c0;
+  color: #000;
 }
 
 .cta:hover {
@@ -693,7 +682,7 @@ section {
     transition: left 0.3s;
     display: flex;
     flex-direction: column;
-    background: #007bff;
+    /* background: #007bff; */
   }
   .base-sidebar.active {
     left: 0;

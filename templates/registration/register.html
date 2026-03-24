@@ -1,5 +1,5 @@
 {% load static %}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -13,100 +13,100 @@
     {% endfor %} {% endif %}
 
     <section class="form-column">
-      <div>
-        <form action="{% url 'register' %}" method="post" class="flex-form">
-          {% csrf_token %} {% comment %}
-          <div>
-            <a href="{% url 'base' %}" class=""
-              ><img
-                src="{% static 'assets/logo.jpeg' %}"
-                alt="{{ imageAlt }}"
+      <form action="{% url 'register' %}" method="post" class="flex-form">
+        {% csrf_token %}
+        <div class="form-content">
+          <h1>Create an Account</h1>
+          <p>Join now to effortlessly manage and track your attendance.</p>
+
+          <div class="form-items">
+            <div>
+              <label for="firstname">First Name</label>
+              <input
+                type="text"
+                id="firstname"
+                name="first_name"
+                placeholder="rex "
+                required
               />
-            </a>
+            </div>
+
+            <div>
+              <label for="lastname">Last Name</label>
+              <input
+                type="text"
+                id="lastname"
+                name="last_name"
+                placeholder=" solomon"
+                required
+              />
+            </div>
+
+            <div>
+              <label for="username">Username</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="rexsolomon"
+                required
+              />
+            </div>
+
+            <div>
+              <label for="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="rexsolomon@gmail.com"
+                required
+              />
+            </div>
+
+            <div>
+              <label for="phone_number">Phone Number</label>
+              <input
+                type="tel"
+                id="phone_number"
+                name="phone_number"
+                placeholder="672088918"
+                required
+              />
+            </div>
+
+            <div>
+              <label for="user_type">User Type</label>
+              <select name="user_type">
+                {% for value, label in user_type_choices %}
+                <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div>
+              <label for="department">Department</label>
+              <select name="department">
+                {% for dept in departments %}
+                <option value="{{ dept.id }}">{{ dept.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div>
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" required />
+            </div>
           </div>
-          {% endcomment %}
-          <div class="form-content">
-            <h1>Create an Account</h1>
-            <p>Join now to effortlessly manage and track your attendance.</p>
-            <label for="firstname">First Name</label>
-            <input
-              type="text"
-              id="firstname"
-              name="first_name"
-              placeholder="rex "
-              required
-            />
 
-            <label for="lastname">Last Name</label>
-            <input
-              type="text"
-              id="lastname"
-              name="last_name"
-              placeholder=" solomon"
-              required
-            />
-
-            <label for="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              placeholder="rexsolomon"
-              required
-            />
-
-            <label for="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="rexsolomon@gmail.com"
-              required
-            />
-
-            <label for="phone_number">Phone Number</label>
-            <input
-              type="tel"
-              id="phone_number"
-              name="phone_number"
-              placeholder="672088918"
-              required
-            />
-
-            <label for="user_type">User Type</label>
-            <select name="user_type">
-              {% for value, label in user_type_choices %}
-              <option value="{{ value }}">{{ label }}</option>
-              {% endfor %}
-            </select>
-
-            <label for="department">Department</label>
-            <select name="department">
-              {% for dept in departments %}
-              <option value="{{ dept.id }}">{{ dept.name }}</option>
-              {% endfor %}
-            </select>
-
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required />
-
-            <button type="submit" class="register-btn">Sign Up</button>
-            <p>
-              Already have an account? <a href="{% url 'login'%}">Sign In</a>
-            </p>
-          </div>
-          <div class="form-footer">
-            <p>&copy; {{ now.year }} Unified Attendance Software</p>
-            <p>Privacy Policy</p>
-          </div>
-        </form>
-      </div>
-      <div class="get-started">
-        <h1>Effortlessly manage your attendance and operations.</h1>
-        <p>log in to access your dashboard and manage your attendance</p>
-
-        <img src="{% static 'assets/register.webp' %}" alt="{{ imageAlt }}" />
-      </div>
+          <button type="submit" class="register-btn">Create Account</button>
+          <p>Already have an account? <a href="{% url 'login'%}">Login</a></p>
+        </div>
+        <div class="form-footer">
+          <p>&copy; {{ now.year }} Unified Attendance Software</p>
+          <p>Privacy Policy</p>
+        </div>
+      </form>
     </section>
   </body>
 </html>

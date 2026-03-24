@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 
 USER_TYPE_CHOICES = (
         ('admin','Administrator'),
-        ('teacher','Teacher'),
+        ('employee','Employee'),
         ('secretary','Secretary'),
     )
 
@@ -24,8 +24,7 @@ class Timetable(models.Model):
     def __str__(self):
         return self.title
     
-    # def save(self, *args,**kwargs):
-    #     super().save(*args, **kwargs)
+    
     
 # custom user class
 class CustomUser(AbstractUser):
@@ -36,4 +35,4 @@ class CustomUser(AbstractUser):
     def __str__(self) :
         return f'{self.username} ({self.department})'
 
-# Create your models here.
+
