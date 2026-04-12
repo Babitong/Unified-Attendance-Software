@@ -67,7 +67,7 @@ pyhanko-certvalidator==0.27.0
 pyparsing==3.2.3
 pypdf==5.7.0
 pyphen==0.17.2
-# python-bidi==0.6.6
+python-bidi==0.6.6
 python-dateutil==2.9.0.post0
 pytz==2025.1
 PyYAML==6.0.2
@@ -76,7 +76,7 @@ redis==6.2.0
 referencing==0.36.2
 reportlab==4.4.2
 requests==2.32.3
-# rpds-py==0.23.1
+rpds-py==0.23.1
 sentry-sdk==2.32.0
 setuptools==80.9.0
 six==1.17.0
