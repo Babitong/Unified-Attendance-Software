@@ -8,28 +8,3 @@ from django.contrib.auth.decorators import login_required
 
 
 
-
-
-# class DashboardView(LoginRequiredMixin, TemplateView):
-#     template_name = 'dashboard.html'
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['user'] = self.request.user
-#         return context
-        
-
-# class TimetableListView(LoginRequiredMixin,ListView):
-#     model = Timetable
-#     template_name = "timetables/timetables_list.html"
-#     context_object_name = "timetables"
-#     login_url = "login"
-
-
-# def  get_queryset(self):
-#     user = self.request.user
-#     # only show timetable matching the user's department
-#     return Timetable.objects.filter(department=user.department).order_by('-uploaded_at')
-    
-
-# Create your views here.

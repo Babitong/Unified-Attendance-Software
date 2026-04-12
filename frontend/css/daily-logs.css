@@ -11,11 +11,10 @@ body {
 .attendance-table-wrapper {
   overflow-x: auto;
   /* margin: 1rem; */
-  margin-left: 250px;
 }
 
 #attendance-table-wrapper {
-  margin: 0;
+  margin-left: 250px;
 }
 
 /* GENERAL TABLE STYLES */
@@ -512,7 +511,13 @@ tr:hover {
 
 /* =====  MOBILE RESPONSIVE VIEW ==== */
 @media screen and (max-width: 480px) {
+  #main {
+    margin: 0;
+  }
   .attendance-table-wrapper {
+    margin: 0;
+  }
+  #attendance-table-wrapper {
     margin: 0;
   }
   .attendance-table th,

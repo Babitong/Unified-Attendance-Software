@@ -14,10 +14,10 @@
         <h2>Not yet time, {{ user.get_full_name|default:user.username }}</h2>
 
         <p class="message">
-          You will be eligible to checkout after 4 hours. keep going!
+          Sorry, but you have already checked in. Please wait until the end of the day to check out.
         </p>
 
-        <a href="{% url 'teacher_home' %}" class="btn">
+        <a href="{% url 'employee_dashboard' %}" class="btn">
           Return to your dashboard
         </a>
       </div>

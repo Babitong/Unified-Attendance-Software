@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Unified Attendance Software</title>
+    <title>Unified Attendance Management System</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
@@ -21,7 +21,7 @@
     <header>
       <div class="header-container">
         <div class="logo">
-          <h1>Unified Attendance Management Software</h1>
+          <h1>Unified Attendance Management System</h1>
         </div>
         <nav class="auth-actions">
           <div class="base-sidebar" id="base-sidebar">
@@ -31,13 +31,8 @@
               <button type="submit" class="auth-btn logout-btn">Logout</button>
             </form>
             {% else %}
-            <a href="#feature" class="auth-btn">Features</a>
-            <a href="#about" class="auth-btn">About us</a>
-            <a href="{% url 'login' %}" class="auth-btn login-btn">Login</a>
-            <a href="{% url 'login' %}" class="auth-btn logout-btn"
-              >Get Started</a
-            >
-            {% endif %}
+            {% comment %} <a href="{% url 'login' %}" class="auth-btn login-btn">Login</a> {% endcomment %}
+             {% endif %}
           </div>
           <div class="base-topbar">
             <button class="btn-base" onclick="togglebase()">☰</button>
@@ -45,160 +40,52 @@
         </nav>
       </div>
     </header>
+    
 
     {% block content%}
     <main>
       <!-- Hero Section -->
       <section id="home" class="hero">
         <div class="hero-content">
-          <h1 class="hero-title">Unified Attendance Management Software</h1>
+          <h1 class="hero-title">Unified Attendance Management System</h1>
           <p class="hero-subtitle">
             Track, manage, and monitor attendance efficiently with QR codes, GPS
             and real-time reports.
           </p>
-          <div class="hero-buttons">
-            <a href="{% url 'register' %} " class="btn btn-primary"
-              >Get Started</a
-            >
-            <a href="#services" class="btn btn-secondary">Login</a>
-          </div>
         </div>
-        <div class="hero-image">
-          <img
-            src="{% static 'assets/QR-Attendance-App-OneTap.png' %}"
-            alt="{{ imageAlt }}"
-          />
-        </div>
-      </section>
+        <div class="hero-login">
+          <div class="login-container">
+            <form method="post" action="{% url 'login' %}" class="login-form">
+              <div class="login-form-text">
+                <h1>Welcome Back</h1>
+                <p>Hey, Welcome back to your special place</p>
+              </div>
+              {% csrf_token %} {% if form.errors %}
+              <p class="error-message">Invalid username or password</p>
+              {% endif %}
+              <div class="form-group">
+                <label for="id_username">Username</label>
+                <input type="text" name="username" id="id_username" required />
+              </div>
 
-      <section class="features" id="feature">
-        <h2>Key Features</h2>
-        <div class="feature-grid">
-          <div class="feature-card">
-            <img src="{% static 'assets/one.jpeg' %}" alt="Security Icon" />
-            <h3>QR Code Attendance</h3>
-            <p>Fast, mobile-friendly check-ins.</p>
-          </div>
+              <div class="form-group">
+                <label for="id_password">Password</label>
+                <input type="password" name="password" id="id_password" required />
+              </div>
 
-          <div class="feature-card">
-            <img
-              src="{% static 'assets/c4da9521-afba-4ef9-92d0-7d284c485e55.jpeg' %}"
-              alt="Analytics Icon"
-            />
-            <h3>GPS Location Tracking</h3>
-            <p>Charts that turn data into decisions.</p>
-          </div>
-          <div class="feature-card">
-            <img src="{% static 'assets/one.jpeg' %}" alt="Security Icon" />
-            <h3>Role-Based Dashboards</h3>
-            <p>Tailored views for teachers, secretaries, admins.</p>
-          </div>
-          <div class="feature-card">
-            <img
-              src="{% static 'assets/c4da9521-afba-4ef9-92d0-7d284c485e55.jpeg' %}"
-              alt="Analytics Icon"
-            />
-            <h3>Visual Analytics</h3>
-            <p>Charts that turn data into decisions.</p>
-          </div>
-
-          <div class="feature-card">
-            <img src="{% static 'assets/one.jpeg' %}" alt="Security Icon" />
-            <h3>Secure Registration Flow</h3>
-            <p>First-time admin logic and role control.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="about-uas" id="about">
-        <div class="about-content">
-          <h3>How It Works</h3>
-          <ul class="about-column">
-            <li class="about-column-item">
-              <strong>Step 1:</strong> Admin registers and sets up departments.
-            </li>
-            <li class="about-column-item">
-              <strong>Step 2:</strong> Teachers and secretaries register under
-              their assigned roles.
-            </li>
-            <li class="about-column-item">
-              <strong>Step 3:</strong> Users scan QR codes via camera
-            </li>
-            <li class="about-column-item">
-              <strong>Step 4:</strong> Dashboards display attendance logs,
-              charts, and export options.
-            </li>
-          </ul>
-        </div>
-      </section>
-    </main>
-    {% endblock %}
-
-    <footer class="footer" id="footer">
-      <div class="container">
-        <div class="footer-content">
-          <div class="footer-section">
-            <div class="logo">
-              <i class="fas fa-soap"></i>
-              <span>Unified Attendance Software</span>
-            </div>
-            <p>
-              A smart, role-aware platform designed to help schools and
-              institutions track attendance with speed, security, and clarity.
-            </p>
-            <div class="social-links">
-              <a href="#"><i class="fab fa-facebook-f"></i></a>
-              <a href="#"><i class="fab fa-twitter"></i></a>
-              <a href="#"><i class="fab fa-instagram"></i></a>
-              <a href="#"><i class="fab fa-linkedin-in"></i></a>
-            </div>
-          </div>
-
-          <div class="footer-section">
-            <h4>Quick Links</h4>
-            <ul>
-              <li><a href="{% url 'base' %}">Home</a></li>
-              <li><a href="#services">Services</a></li>
-              <li><a href="#about">About Us</a></li>
-              <li><a href="#testimonials">Testimonials</a></li>
-              <li>
-                <a href="#contact"
-                  ><p>
-                    <a href="mailto:rexbabitong@gmail.com">Contact Support</a>
-                  </p></a
-                >
-              </li>
-            </ul>
-          </div>
-
-          <div class="footer-section">
-            <h4>Services</h4>
-            <ul>
-              <li><a href="#services">Solo Attendance Tracking</a></li>
-              <li><a href="#services">Small Schools Attendance Tracking</a></li>
-              <li><a href="#services">institutional Attendance Tracking</a></li>
-            </ul>
-          </div>
-
-          <div class="footer-section">
-            <h4>Newsletter</h4>
-            <p>
-              Subscribe to our newsletter for Attendance tracking tips and
-              special offers.
-            </p>
-            <form class="newsletter-form">
-              <input type="email" placeholder="Your Email" />
-              <button type="submit">Subscribe</button>
+              <div class="form-group">
+                <button type="submit" class="login-btn-auth">Login</button>
+              </div>
             </form>
           </div>
         </div>
+      </section>
 
-        <div class="footer-bottom">
-          <p>&copy; 2025 Unified Attendance Software. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
+     
+    </main>
+    {% endblock %}
 
+    
     <script>
       // Sidebar Toggle
       function togglebase() {

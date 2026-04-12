@@ -12,7 +12,8 @@ urlpatterns = [
     
     path('',TemplateView.as_view(template_name='base.html'), name='base'),
     path('post-login/',views.post_login_redirect,name="post_login_redirect"),
-    path('register/', views.register_view, name='register'),
+    path('change-password/', views.change_password, name='change_password'),
+    
     path('accounts/login/',auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(template_name = 'registration/logged_out.html', next_page ='base'), name='logout'),
     path('scan_qr_auto/', views.check_in_view, name='scan_qr_auto'),
@@ -21,11 +22,36 @@ urlpatterns = [
     path('checked-out/', views.checked_out_page, name='scan_checked_out'),
     path('wait/',views.wait_for_checkout_page, name='scan_wait_for_checkout'),
     path('already-out', views.already_checked_out_page, name='scan_already_checked_out'),
-    path('daily-logs/', views.daily_logs, name='daily_logs'),
-    path('teacher-home/', views.teacher_home_view, name='teacher_home'),
-    path('qrcode_download', views.download_qr_page,name='qrcode_download'),
+    path('secretary-dashboard/', views.secretary_dashboard, name='secretary_dashboard'),
+    path('employee-dashboard/', views.employee_dashboard, name='employee_dashboard'),
+    path('qrcode_download', views.download_qr_page,name='download_qr_page'),
     path('pdf/', views.export_pdf, name='pdf'),
-     path('teacher-pdf/', views.teacher_pdf, name='teacher-pdf'),
-    path('dashboard/', views.dashboard_view, name='dashboard'),
-    # path("timetables/",TimetableListView.as_view(), name="timetables_list.html"), 
+    path('employee-export/', views.employee_export, name='employee_export'),
+    path('report-view/', views.report_view, name='report_view'),
+
+
+        path('password-reset/',
+         auth_views.PasswordResetView.as_view(
+             template_name='registration/password_reset.html'
+         ),
+         name='password_reset'),
+
+    path('password-reset/done/',
+         auth_views.PasswordResetDoneView.as_view(
+             template_name='registration/password_reset_done.html'
+         ),
+         name='password_reset_done'),
+
+    path('reset/<uidb64>/<token>/',
+         auth_views.PasswordResetConfirmView.as_view(
+             template_name='registration/password_reset_confirm.html'
+         ),
+         name='password_reset_confirm'),
+
+    path('reset/done/',
+         auth_views.PasswordResetCompleteView.as_view(
+             template_name='registration/password_reset_complete.html'
+         ),
+         name='password_reset_complete'),
+     
 ]

@@ -1,0 +1,115 @@
+
+{% comment %} {% extends "daily_logs.html"%} {% endcomment %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Attendance System</title>
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/daily-logs.css' %}">
+</head>
+<body>
+    <div class="dashboard-container">
+          <header class="dashboard-header">
+              <div class="greeting">
+                  <h2>Hello, {{ user.username }} ({{user.user_type}})</h2>
+                  <span class="user-role-badge">{{ user.get_role_display }}</span>
+                  
+              </div>
+              <nav>
+                  <form action="{% url 'logout' %}" method="post">
+                      {% csrf_token %}
+                      <button type="submit" class="logout-btn">Logout</button>
+                      <a href="{% url 'secretary_dashboard' %}">Back to dashboard</a>
+                  </form>
+              </nav>
+          </header>
+      {% block content %}
+      <div class="dashboard-content">
+          <div class="card">
+            <h2 class="dashboard-heading"> Attendance Logs For {{today}}</h2>
+            {% if records %}
+            <div class="attendance-table-wrapper">
+            <form method"get" class="date-filter">
+              {% if show_all%}
+              <a href="{% url 'secretary_dashboard' %}" class="btn button">Back to Today's Logs</a>
+              {% else %}
+              <a href="?view=all" class="btn button">Show All Records</a>
+              {% endif %}
+              
+            </form>
+
+            <div class="export-buttons">
+              <h2>📤 Export Attendance Logs</h2>
+              <div style="margin-top: 10px;">
+                {% comment %} <a href="{% url 'export_excel' %}" class="btn btn-success">📥 Export to Excel</a> {% endcomment %}
+                <a href="{% url 'pdf' %}?view={{ request.GET.view }}" class="btn btn-danger">📄 Export to PDF</a>
+              </div>
+
+            
+            </div>
+            
+            
+            <table class="attendance-table">
+                {% comment %} <p class="display">Swipe left or right to view attendance</p> {% endcomment %}
+                <thead>
+                  <tr>
+                    <th>Users</th>
+                    <th>Departments
+                      
+                    </th
+                    ><th>Date</th>
+                    <th>Hours Worked</th>
+                    <th>Check-in</th>
+                    <th>Check-out</th>
+                
+                  </tr>
+                </thead>
+
+
+                <tbody>
+                  {% for r in records %}
+                    <tr>
+                      <td class="td-text">{{ r.user.get_full_name }}</td>
+                      <td class="td-text">{{r.user.department.name}}
+                        
+                      </td>
+                      <td class="td-text">{{r.scanned_at|date:"Y-m-d"}}</td>
+                      <td>
+                        {{r.hours_worked}}
+                      </td> 
+                      <td class="{% if r.scanned_at %}status-ok-in {% else %}status-missing-in{%endif%}">{{ r.scanned_at|date:"H:i:s" }}</td>
+                      <td class="{% if r.checked_out_at %}status-ok {% else %}status-missing{%endif%}">
+                      {% if r.checked_out_at %}
+                        {{ r.checked_out_at|date:"H:i:s" }}
+                      {% else %}
+                        -
+                      {% endif %}</td>
+                    </tr>
+                {% endfor %}
+                <tbody>
+              </table>
+
+            <img src="data:image/png;base64,{{ chart_base64 }}" alt="Attendance Chart" class="chart">
+          
+          </div>
+        
+        
+          {% else %}
+            <p class="no-records ">-No attendance records yet today-.</p>
+            <a href="?view=all" class="btn button">Show All Records</a>
+            
+                
+              
+          {% endif %}
+        </div>
+      </div> 
+    </div>
+
+  {% endblock %}
+     
+</body>
+</html>

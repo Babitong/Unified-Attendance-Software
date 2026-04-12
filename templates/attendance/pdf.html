@@ -1,6 +1,6 @@
 {% load static%}
 
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -40,6 +40,7 @@
   </style>
 </head>
 <body>
+  <h1 style="text-align: center;">Unified Attendance Management System</h1>
   <h2>{{title}}</h2>
   <table>
     <tr>
@@ -55,10 +56,10 @@
     <tr>
       <td>{{ forloop.counter }}</td>
       
-      <td>{{log.scanned_at|date:"Fj, Y - h:i A"}}</td>
-      <td>{{ log.user.username }}</td>
+      <td>{{log.scanned_at| date:"Fj, Y - h:i A"}}</td>
+      <td>{{ log.user.get_full_name }}</td>
       
-      <td>Checked In: {{log.scanned_at|date:"h:i A" }}
+      <td>Checked In: {{log.scanned_at  |date:"h:i A" }}
       
         {% if log.checked_out_at %}
          Checked Out: {{ log.checked_out_at|date:"h:i A" }}
@@ -74,5 +75,3 @@
   </table>
 </body>
 </html>
-
-

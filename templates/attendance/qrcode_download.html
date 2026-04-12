@@ -1,19 +1,13 @@
- {% extends "dashboard.html" %} 
-
-{% block content%}
-{% load static %}
-<link rel="stylesheet" href="{% static 'css/qrcode.css' %}">
+{% extends "report_view.html" %} {% block content%} {% load static %}
+<link rel="stylesheet" href="{% static 'css/qrcode.css' %}" />
 
 <div class="infor-qrcode">
-
-    <h2>General Attendance QR Code</h2>
-<img src="{{ qr_path }}" alt="QR Code" width="250" class="qrimg">
-<div class="qrbuttons">
+  <h2>General Attendance QR Code</h2>
+  <img src="{{ qr_path }}" alt="QR Code" width="250" class="qrimg" />
+  <div class="qrbuttons">
     <a href="{{ qr_path }}" download class="download">Download QR</a>
     <button onclick="window.print()" class="buttonqr">Print QR</button>
+  </div>
 </div>
-
-</div>
-
 
 {% endblock %}

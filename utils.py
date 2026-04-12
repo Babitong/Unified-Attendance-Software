@@ -53,3 +53,5 @@ def generate_attendance_chart(data):
 
     chart_base64 = base64.b64encode(image_png).decode('utf-8')
     return chart_base64
+
+

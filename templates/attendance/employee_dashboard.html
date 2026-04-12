@@ -1,0 +1,164 @@
+{% extends "base.html"%}
+{% load static %}
+
+{% block content%}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Dashboard</title>
+  <link rel="stylesheet" href="{% static 'css/teacher-dashboard.css' %} ">
+  <link rel="stylesheet" href="{% static 'css/daily-logs.css' %} ">
+</head>
+<body class="body">
+
+  
+  <!-- Main Content -->
+  <div class="main">
+    
+    <div class="header" id="header">
+            <div class="header-content">
+                <div>
+                    <h1>Welcome, {{user.get_full_name}}</h1>
+                    <div class="header-info">{{user.department|default:'Not assigned'}}</div>
+                </div>
+                <div class="date-class-info">
+                    <div class="class-name">{{user.department}}</div>
+                    <div>{{today}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            
+              <div class="action-card scan-card" onclick="openScanModal()">
+                <a href="{% url 'check_in'%}">
+                <div class="action-icon">📱</div>
+                <div class="action-title">CHECK-IN</div>
+                <div class="action-description">Scan to quickly start attendance</div>
+                </a>
+            </div>
+
+             <div class="action-card export-card" onclick="openScanModal()">
+                <a href="{% url 'check_in'%}">
+                <div class="action-icon">📱</div>
+                <div class="action-title">CHECK-OUT</div>
+                <div class="action-description">Scan to complete attendance</div>
+                </a>
+            </div>
+            
+            <div class="action-card view-card" onclick="scrollToTable()">
+                <a href="">
+                  <div class="action-icon">📄</div>
+                  <div class="action-title">Download Attendance Records</div>
+                  <div class="action-description"> Download and view detailed attendance record in PDF format. </div>
+                </a>
+            </div>
+            
+            
+        </div>
+
+    
+      <div class="card">
+        <h2 class="dashboard-heading"> Attendance logs for  {{ request.user.username }} {{today}}</h2>
+          
+        {% if records %}
+          
+          <div class="attendance-table-wrapper" >
+            
+          <form method"get" class="date-filter">
+            {% if show_all%}
+            
+            <a href="{% url 'employee_dashboard' %}" class="btn button">Back to Today's Logs</a>
+            
+            {% else %}
+            <a href="?view=all" class="btn button">Show All Records</a>
+            
+              
+            {% endif %}
+            
+          </form>
+
+            <div class="export-buttons">
+            <h2>📤 Export Attendance Logs</h2>
+            <div style="margin-top: 10px;">
+              {% comment %} <a href="{% url 'export_excel' %}" class="btn btn-success">📥 Export to Excel</a>  {% endcomment %}
+              <a href="{% url 'employee_export' %}?view={{ request.GET.view }}" class="btn btn-danger">📄 Export to PDF</a>
+            </div>
+
+          
+          </div>
+          
+          
+          <table class="attendance-table">
+            
+            <thead>
+              <tr>
+              <th>Name</th>
+              <th>Department
+                
+              </th
+              ><th>Date</th>
+              <th>Hours Worked</th>
+              <th>Check-in</th>
+              <th>Check-out</th>
+            
+              
+            </tr>
+            </thead>
+
+
+            <tbody>
+              {% for r in records %}
+              <tr>
+                <td class="td-text">{{ r.user.get_full_name }}</td>
+                <td class="td-text">{{r.user.department.name}}
+                  
+                </td>
+                <td class="td-text">{{r.scanned_at|date:"Y-m-d"}}</td>
+                <td>
+                  {{r.hours_worked}}
+                </td> 
+                <td class="{% if r.scanned_at %}status-ok-in {% else %}status-missing-in{%endif%}">{{ r.scanned_at|date:"H:i:s" }}</td>
+                <td class="{% if r.checked_out_at %}status-ok {% else %}status-missing{%endif%}">
+                {% if r.checked_out_at %}
+                {{ r.checked_out_at|date:"H:i:s" }}
+                {% else %}
+                -
+                {% endif %}</td>
+
+                
+              </tr>
+            {% endfor %}
+            <tbody>
+            
+          </table>
+          </div>
+        
+        
+        {% else %}
+        <a href="?view=all" class="btn button">Show All Records</a>
+          <p class="no-records ">-No attendance records yet today-.</p>
+          
+          
+             
+            
+        {% endif %}
+  </div>
+
+  </div>
+
+      
+      
+    </div>
+  </div>
+
+  
+</body>
+</html>
+{% endblock %}
+
+
+

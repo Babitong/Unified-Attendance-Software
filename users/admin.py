@@ -3,15 +3,15 @@ from django.contrib.auth.admin import UserAdmin
 # from django.http import HttpRequest 
 from .models import CustomUser, Department
 from django.contrib.admin import AdminSite
-from .models import Timetable
-from attendance.models import AttendanceRecord
+# from .models import Timetable
+from attendance.models import AttendanceRecord, PasswordResetLog
 
 @admin.register(AttendanceRecord)
 class AttendanceRecordAdmin(admin.ModelAdmin):
     # list_display = ('date','user', 'scanned_at', 'checked_out_at','latitude','longitude')
-    list_display = ('date','user', 'scanned_at', 'checked_out_at')
+    list_display = ('date','user', 'scanned_at', 'checked_out_at','hours_worked','latitude','longitude','status')
     list_filter = ('user__department', 'scanned_at','date')
-    search_fields = ('user__username',)
+    search_fields = ('user__username','hours_worked')
     readonly_fields = ('user', 'scanned_at', 'checked_out_at','latitude','longitude')
 
 
@@ -27,14 +27,7 @@ class DepartmentAdmin(admin.ModelAdmin):
         list_display =('name',)
         search_fields = ('name',)
 
-# registering timetable
-@admin.register(Timetable)
-class TimetableAdmin(admin.ModelAdmin):
-     list_display = ('title','department','uploaded_at')
-     fields = ('title','department','upload')
-     list_filter = ('department',)
-     search_fields = ('title',)
-     readonly_fields = ('uploaded_at',)
+
     
 
 # creating our class for creating users
@@ -83,7 +76,7 @@ admin_site = MyAdminSite(name='myadmin')
 admin_site.register(CustomUser,CustomUserAdmin)
 admin_site.register(AttendanceRecord, AttendanceRecordAdmin)
 admin_site.register(Department,DepartmentAdmin) 
-admin_site.register(Timetable,TimetableAdmin)
+admin_site.register(PasswordResetLog)
 
 
 

@@ -1,19 +1,35 @@
+from time import time
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
 from django.shortcuts import render, redirect
-from django.utils import timezone
 from django.utils.timezone import now
 from django.http import HttpResponseForbidden, HttpResponse
+from urllib3 import request
 from .models import AttendanceRecord 
-from users import models
-# from datetime import timedelta, datetime
+import math
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from utils import generate_attendance_chart 
 from users.models import Department , CustomUser
-from django.contrib import messages
-from django.contrib.auth.hashers import make_password
-
+from django.utils import timezone
+from datetime import time
 from django.db.models import Count
+
+
+
+def calculate_distance(lat1, lon1, lat2, lon2):
+    R = 6371000 #Meters
+    phi1 = math.radians(lat1)
+    phi2 = math.radians(lat2)
+
+    delta_phi = math.radians(lat2 - lat1)
+    delta_lambda = math.radians(lon2 - lon1)
+     
+    a = (math.sin(delta_phi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(delta_lambda / 2) ** 2)
+
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+
+    return R * c
  
 
 
@@ -43,9 +59,9 @@ def export_pdf(request):
     pisa.CreatePDF(html, dest=response)
     return response
 
-# teacher pdf view
+# employee pdf view
 
-def teacher_pdf(request):
+def employee_export(request):
     view_mode = request.GET.get("view")
     
     if view_mode == "all":
@@ -55,7 +71,7 @@ def teacher_pdf(request):
         title = "All Attendance Logs"
     else:
         today = timezone.now()
-        logs = AttendanceRecord.objects.filter(scanned_at__date=today)
+        logs = AttendanceRecord.objects.filter(user=request.user, scanned_at__date=today)
         title = f"Attendance Logs - {today.strftime('%B %d, %Y')}"
     
     context = {
@@ -63,7 +79,7 @@ def teacher_pdf(request):
         "title": title,
     }
     
-    template = get_template("attendance/teacher-pdf.html")
+    template = get_template("attendance/employee_export.html")
     html = template.render(context)
     
     response = HttpResponse(content_type="application/pdf")
@@ -72,83 +88,38 @@ def teacher_pdf(request):
     return response
 
 
-# Redirect after login based on user type
-def register_view(request):
-    # SETTING A DEFAULT DEPARTMENT FOR THE ADMIN
-    if Department.objects.count() == 0:
-
-        Department.objects.create(name="management")
-    
-    departments =  Department.objects.all()
-    
-    # Check if an admin already exists
-    admin_exists = CustomUser.objects.filter(user_type='admin').exists()
-
-    # Dynamically set the user type based on the existence of an admin
-    if admin_exists:
-        user_type_choices = [('teacher', 'Teacher')]
-    else:
-        
-        user_type_choices = [('admin', 'Admin'), ('teacher', 'Teacher'), ('secretary', 'Secretary')]
-
-    # getting user data
-    if request.method == 'POST':
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        user_type = request.POST.get('user_type')
-        phone_number= request.POST.get('phone_number')
-        department_id = request.POST.get('department')
-        password = request.POST.get('password')
-
-
-        # check for existing username or email
-        if CustomUser.objects.filter(username=username).exists():
-            messages.error(request,"username already exists.")
-            return render(request, 'registration/register.html', {'departments': departments})
-        
-        if CustomUser.objects.filter(email=email).exists():
-            messages.error(request,"Email already exists.")
-            return render(request, 'registration/register.html', {'departments': departments})
-        
-        # Get department object
-        try:
-            department = Department.objects.get(id=department_id)
-        except Department.DoesNotExist:
-            messages.error(request, "Invalid department selected.")
-            return render(request , 'registration/register.html', {'departments': departments}) 
-
-        # creating user
-
-        CustomUser.objects.create(
-            first_name=first_name,
-            last_name=last_name,
-            username=username,
-            email=email,
-            user_type=user_type,
-            phone_number=phone_number,
-            department=department,
-            password=make_password(password) # Encrypt password
-        )  
-        messages.success(request, "Account created successfully! You can now login")
-        return redirect('login')
-
-        
-    return render(request,'registration/register.html', {'departments': departments, 'user_type_choices': user_type_choices,'admin_exists': admin_exists})
-
-    
-
 
 
 @login_required
 def post_login_redirect(request):
-    if request.user.user_type == "employee":
-        return redirect("teacher_home")
-    elif request.user.user_type == "secretary":
-        return redirect("daily_logs")
+    user = request.user
+     # CHECK FIRST LOGIN
+    if user.user_type in ['employee','secretary'] and user.is_first_login:
+        return redirect("change_password")
+    # NORMAL REDIRECTION
+    if user.user_type == "employee":
+        return redirect("employee_dashboard")
+    elif user.user_type == "secretary":
+        return redirect("secretary_dashboard")
     else:
         return redirect("admin:index")
+    
+
+@login_required
+def change_password(request):
+    
+    if CustomUser.user_type == "admin": # type: ignore
+        return redirect("admin:index")
+    if request.method == 'POST': 
+        new_password = request.POST.get('password')
+        user = request.user
+        user.set_password(new_password)
+        user.is_first_login = False
+        user.save()
+
+        update_session_auth_hash(request, user)
+        return redirect('post_login_redirect')
+    return render(request,'registration/change_password.html')
     
 
 
@@ -157,29 +128,112 @@ def post_login_redirect(request):
 
 @login_required
 def check_in_view(request):
+    WORK_START = time(8, 0)
+    WORK_END = time(17, 0)
+    LATE_THRESHOLD = time(8, 30)
+
+    
+    code = request.GET.get('code')
+    lat = request.GET.get('lat')
+    lon = request.GET.get('lon')
+
+    # Validate QR first
+    if code != "http://127.0.0.1:8000/check-in/":
+        return HttpResponse("❌ Invalid QR Code")
+
+    # Ensure GPS exists
+    if not lat or not lon:
+        return HttpResponse("❌ GPS required")
+
+    try:
+        user_lat = float(lat)
+        user_lon = float(lon)
+    except:
+        return HttpResponse("❌ Invalid GPS data")
+
+    # Calculate distance
+    COMPANY_LAT = user_lat
+    COMPANY_LON = user_lon
+    ALLOWED_RADIUS = 150 # METERS
+    distance = calculate_distance(
+        user_lat, user_lon,
+        COMPANY_LAT, COMPANY_LON
+    )
+
+    # Reject if outside
+    if distance > ALLOWED_RADIUS:
+        return HttpResponse("❌ You are outside company location")
+    
+
+
+    # Continue attendance logic
+
     user = request.user
     now = timezone.localtime()
     today = now.date()
+    current_time = now.time()
+    record = AttendanceRecord.objects.filter(
+        user=user,
+        date=today
+    ).first()
 
-    try:
-        record = AttendanceRecord.objects.get(user=user, date=today)
-        time_elapsed = (now - record.scanned_at).total_seconds()
+    
+    # BEFORE WORK HOURS
+    
+    if current_time < WORK_START:
+        return HttpResponse("❌ Too early to check in")
 
-        if record.checked_out_at:
-            return redirect("scan_already_checked_out")
-        
-        elif time_elapsed >= 4 * 3600: # 4 hours in seconds originally
-        # elif time_elapsed >= 5 * 60:
-            record.checked_out_at = now
-            record.save()
-            return redirect("scan_checked_out")
+    
+    # AFTER WORK HOURS (NO CHECK-IN)
+    
+    if current_time > WORK_END and not record:
+        return HttpResponse("❌ Work hours closed")
+
+    # CHECK-IN
+    if not record:
+
+        if current_time > LATE_THRESHOLD:
+            
+            status = "Late"
         else:
-            # remaining = 4 * 3600 - time_elapsed
-            return redirect("scan_wait_for_checkout")
-    except AttendanceRecord.DoesNotExist:
-        AttendanceRecord.objects.create(user=user, scanned_at=now, date=today)
-        return redirect( "scan_checked_in")
+            status = "Present"
+           
+        AttendanceRecord.objects.create(
+            user=user,
+            date=today,
+            scanned_at=now,
+            status=status,
+            latitude=user_lat,
+            longitude=user_lon
+        )
 
+        # return HttpResponse(f"✅ Checked in ({status})")
+        return redirect("scan_checked_in")
+
+   
+    # BLOCK MULTIPLE SCANS BEFORE CLOSING
+    if record and not record.checked_out_at and current_time < WORK_END:
+        return redirect("scan_wait_for_checkout")
+        
+
+
+    # CHECK-OUT (AFTER CLOSING)
+    
+    if record and not record.checked_out_at and current_time >= WORK_END:
+
+        record.checked_out_at = now
+        record.latitude = user_lat
+        record.longitude = user_lon
+        record.save()
+
+        return redirect("scan_checked_out")
+
+    
+    #  FINAL BLOCK
+    
+    return redirect("scan_already_checked_out")
+
+    
 
 
 
@@ -207,15 +261,15 @@ def already_checked_out_page(request):
 # secretary's dashboard view
 
 @login_required
-def daily_logs(request):
+def secretary_dashboard(request):
     if request.user.user_type.lower() != "secretary":
         return HttpResponseForbidden("Access denied.")
-    teachers = CustomUser.objects.filter(user_type ='employee')
+    employees = CustomUser.objects.filter(user_type ='employee')
     # today = now().date()
     today = timezone.now()
     status_list  = []
-    for teacher in teachers:
-        records_today = AttendanceRecord.objects.filter( user=teacher, date=today)
+    for employee in employees:
+        records_today = AttendanceRecord.objects.filter( user=employee, date=today)
         if records_today.filter(status='chech_out_at').exists():
             status = 'Checked Out'
         elif records_today.filter(status='scanned_at').exists():
@@ -223,27 +277,27 @@ def daily_logs(request):
         else:
             status = 'Nothing'
         status_list.append({
-            'name': teacher.get_full_name,
-            'department': teacher.department,
-            'email': teacher.email,
-            'phone_number': teacher.phone_number,
+            'name': employee.get_full_name,
+            'department': employee.department,
+            'email': employee.email,
+            'phone_number': employee.phone_number,
             'status':status,
         })
     # present check
     
     present_check_id = AttendanceRecord.objects.filter(date=today).values_list('user_id', flat=True)
-    present_count = teachers.filter(id__in=present_check_id).count()
+    present_count = employees.filter(id__in=present_check_id).count()
 
     # absent check
-    absent_count = teachers.exclude(id__in=present_check_id).count()
+    absent_count = employees.exclude(id__in=present_check_id).count()
 
     # Total number of teachers
-    teacher_count = CustomUser.objects.filter(user_type='employee').count()
+    employee_count = CustomUser.objects.filter(user_type='employee').count()
     
-    return render(request, "attendance/daily_logs.html", {
+    return render(request, "attendance/secretary_dashboard.html", {
         
-        "teacher_count": teacher_count,
-        "employee": teachers,
+        "teacher_count": employee_count,
+        "employee": employees,
         "present_count": present_count,
         "absent_count": absent_count,
         "status_list": status_list,
@@ -252,35 +306,36 @@ def daily_logs(request):
         }) 
 
 
-# teachers dashboard view
+# employee dashboard view
         
     
 @login_required
-def teacher_home_view(request):
-
-     
+def employee_dashboard(request):
     # check if the user clicked "show all records"
+    if request.user.user_type.lower() != "employee".lower():
+        return HttpResponseForbidden("Access denied.")
     show_all = request.GET.get("view") == "all"
     if show_all:
-        records = AttendanceRecord.objects.filter(user=request.user).order_by('-date', '-scanned_at')
-        today_label = "All Attendance Records"
-        
-        
+            records = AttendanceRecord.objects.filter(user=request.user).order_by('-date', '-scanned_at')
+            today_label = "All Attendance Records"
+            
+            
+            
 
     else:
-        user = request.user
-         # get today's date
-        today = timezone.now()
-        records = AttendanceRecord.objects.filter(user=user,date=today).order_by('scanned_at')
-        today_label = today.strftime("%A, %d %B %Y")
+            user = request.user
+            # get today's date
+            today = timezone.now()
+            records = AttendanceRecord.objects.filter(user=user,date=today).order_by('scanned_at')
+            today_label = today.strftime("%A, %d %B %Y")
+            
         
-        
-    return render(request, "attendance/teacher_home.html", {
-        "records": records,
-        "today": today_label,
-        "show_all": show_all,
-        
-        })
+    return render(request, "attendance/employee_dashboard.html", {
+            "records": records,
+            "today": today_label,
+            "show_all": show_all,
+            
+            })
 
 def download_qr_page(request):
     qr_path = "/media/qrcodes/general_qrcode.png"
@@ -288,7 +343,7 @@ def download_qr_page(request):
 
 
 @login_required
-def dashboard_view(request):
+def report_view(request):
      # check if the user clicked "show all records"
     show_all = request.GET.get("view") == "all"
     if show_all:
@@ -314,7 +369,7 @@ def dashboard_view(request):
 
 
 
-    return render(request, "dashboard.html", {
+    return render(request, "report_view.html", {
         "records": records,
         "today": today_label,
         "show_all": show_all,
@@ -323,7 +378,9 @@ def dashboard_view(request):
    
     
 
-# Secretary Dashboard charts and statistics
+
+    
+
 
 
 
