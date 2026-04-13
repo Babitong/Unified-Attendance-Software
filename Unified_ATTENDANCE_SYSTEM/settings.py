@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-aht0pg2i0^bel@-hg%%npuidwzzopwb@=&9zug+clh^&9kti5l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
 
@@ -150,7 +150,7 @@ STATICFILES_DIRS = [
     BASE_DIR / 'frontend',
 ]
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 
@@ -168,13 +168,13 @@ DEFAULT_FROM_EMAIL = 'rexbabitong@gmail.com'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 JAZZMIN_SETTINGS = {
-    "site_title": "Unified ADMINISTRATION",
+    "site_title": "UAMS  ADMIN",
 
     # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_header": "Unified ATTENDANCE ",
+    "site_header": "Unified Attendance Management System ",
 
     # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_brand": "Unified ATTENDANCE SYSTEM",
+    "site_brand": "UAMS",
 }
 
 
