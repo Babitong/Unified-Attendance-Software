@@ -63,7 +63,7 @@ pycparser==2.22
 pydeck==0.9.1
 pydyf==0.11.0
 pyHanko==0.29.1
-Python 3.14.0
+Python ==3.14.0
 pyhanko-certvalidator==0.27.0
 pyparsing==3.2.3
 pypdf==5.7.0
